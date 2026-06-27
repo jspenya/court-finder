@@ -14,11 +14,11 @@
     <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
   </div>
 
-  <div class="loading" data-search-form-target="loading" hidden>
+  <div id="search-loading" class="loading" data-search-form-target="loading" hidden>
     <%= render "loading" %>
   </div>
 
-  <%= turbo_frame_tag "results" do %>
+  <%= turbo_frame_tag "results", data: { search_form_target: "results" } do %>
     <% if @results %>
       <%= render "results", search: @search, results: @results, checked_at: @checked_at, empty: @empty %>
     <% elsif @search_error.blank? %>

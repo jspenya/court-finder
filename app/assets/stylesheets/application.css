@@ -660,6 +660,9 @@ body {
   border: 3px solid rgb(15 43 36 / 10%);
   border-top-color: var(--pickle);
   border-radius: 50%;
+}
+
+.loading:not([hidden]) .loading__spinner {
   animation: spin 0.75s linear infinite;
 }
 
@@ -697,11 +700,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .results {
     animation: none;
-  }
-
-  .loading__spinner {
-    animation: none;
-    border-top-color: var(--line-green);
   }
 
   .button--primary:active {

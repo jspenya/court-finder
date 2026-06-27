@@ -1,3 +1,9 @@
 <%= turbo_stream.update "results" do %>
   <%= render "results", search: @search, results: @results, checked_at: @checked_at, empty: @empty %>
 <% end %>
+
+<%= turbo_stream.replace "search-loading" do %>
+  <div id="search-loading" class="loading" data-search-form-target="loading" hidden>
+    <%= render "loading" %>
+  </div>
+<% end %>

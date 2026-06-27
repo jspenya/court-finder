@@ -792,3 +792,45 @@ body {
 .flatpickr-time .numInputWrapper span.arrowDown:after {
   border-top-color: var(--line-green);
 }
+
+.site-footer {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 2.5rem;
+  text-align: center;
+  border-top: 1px solid rgb(15 43 36 / 10%);
+}
+
+.site-footer__pitch {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 4vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.site-footer__link {
+  color: var(--forest);
+  text-decoration: none;
+  border-bottom: 2px solid var(--pickle);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.site-footer__link:hover {
+  color: var(--line-green);
+  border-color: var(--pickle-glow);
+}
+
+.site-footer__link:focus-visible {
+  outline: 2px solid var(--line-green);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__link {
+    transition: none;
+  }
+}

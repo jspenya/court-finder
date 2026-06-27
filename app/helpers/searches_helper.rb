@@ -35,4 +35,10 @@ module SearchesHelper
     end_label = search.play_time_end.strftime("%-I:%M %p")
     "#{start_label} – #{end_label}"
   end
+
+  def booking_handoff_date_hint(search)
+    return if search.date == Time.zone.today
+
+    "Select #{search.date.strftime('%-b %-d')} on their site"
+  end
 end

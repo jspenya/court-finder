@@ -4,11 +4,16 @@
       <h2 class="result__title"><%= result.venue.name %></h2>
       <p class="result__summary"><%= result_availability_summary(result) %></p>
     </div>
-    <%= link_to "Book on site",
-          result.venue.booking_url,
-          class: "button button--small button--outline result__book",
-          target: "_blank",
-          rel: "noopener" %>
+    <div class="result__handoff">
+      <%= link_to "Book on site",
+            result.venue.booking_url,
+            class: "button button--small button--outline result__book",
+            target: "_blank",
+            rel: "noopener" %>
+      <% if (hint = booking_handoff_date_hint(search)) %>
+        <p class="result__handoff-hint"><%= hint %></p>
+      <% end %>
+    </div>
   </header>
 
   <div class="result__courts">

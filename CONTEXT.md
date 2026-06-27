@@ -33,7 +33,7 @@ A live pull from each venue's booking platform when the player runs a search. Al
 _Avoid_: Sync, scrape run, cache refresh
 
 **Booking handoff**:
-The player leaves Court Finder and completes the reservation on the venue's own booking platform. Court Finder does not take payment or confirm bookings in v1.
+The player leaves Court Finder and completes the reservation on the venue's own booking platform. Court Finder does not take payment or confirm bookings in v1. The handoff link opens the venue's booking page but cannot pre-select the player's search date — Rezerv, BookingDyno, and Courtogo do not expose a supported URL parameter for it, so those sites default to today. When the search date is not today, Court Finder reminds the player to select that date on the venue site.
 _Avoid_: Checkout, in-app booking
 
 **Play time**:

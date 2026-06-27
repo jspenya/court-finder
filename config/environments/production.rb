@@ -72,4 +72,9 @@ Rails.application.configure do
 
   config.hosts = [ "pickle.one-steph-closer.com" ]
   config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  config.x.google_analytics_measurement_id = ENV.fetch(
+    "GOOGLE_ANALYTICS_MEASUREMENT_ID",
+    "G-SFXGP26XFD"
+  )
 end

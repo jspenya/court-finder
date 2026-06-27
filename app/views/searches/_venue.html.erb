@@ -1,0 +1,26 @@
+<article class="result result--venue">
+  <header class="result__header">
+    <div class="result__header-text">
+      <h2 class="result__title"><%= result.venue.name %></h2>
+      <p class="result__summary"><%= result_availability_summary(result) %></p>
+    </div>
+    <%= link_to "Book on site",
+          result.venue.booking_url,
+          class: "button button--small button--outline result__book",
+          target: "_blank",
+          rel: "noopener" %>
+  </header>
+
+  <div class="result__courts">
+    <% result.slots_by_court.each do |court_name, court_slots| %>
+      <div class="result__court-row">
+        <span class="result__court-name"><%= court_name.presence || "Court" %></span>
+        <div class="result__slot-chips">
+          <% court_slots.sort_by(&:starts_at).each do |slot| %>
+            <span class="result__slot-chip"><%= format_slot_time_compact(slot) %></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</article>

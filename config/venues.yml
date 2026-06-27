@@ -1,0 +1,66 @@
+venues:
+  pickle_village:
+    name: Pickle Village
+    platform: rezerv
+    origin: https://picklevillage.rezerv.co
+    appt_id: 63081bb1-e1fa-48b4-9f2f-18dad29a24f7
+    location_id: 6bcf2295-c5b9-494b-9646-33cf635fbe87
+    booking_url: https://picklevillage.rezerv.co/appointment-booking?apptId=63081bb1-e1fa-48b4-9f2f-18dad29a24f7&locationId=6bcf2295-c5b9-494b-9646-33cf635fbe87&durationId=677f5e4b-6f88-420d-882e-a1ee5f68cb02
+
+  home_court:
+    name: Homecourt
+    platform: rezerv
+    origin: https://homecourtpickleballcdo.rezerv.co
+    appt_id: 07ca3f66-dd20-44da-9772-39024d3b34ae
+    location_id: 10ce4615-53c1-43f8-a087-ad8924d50958
+    booking_url: https://homecourtpickleballcdo.rezerv.co/appointment-booking?apptId=07ca3f66-dd20-44da-9772-39024d3b34ae&locationId=10ce4615-53c1-43f8-a087-ad8924d50958&durationId=e54bab48-0caf-44b3-b575-ab1f3d4b7682
+
+  zero_zero_two:
+    name: 0-0-2 Pickle Courts
+    platform: rezerv
+    origin: https://0-0-2-pickle-courts.rezerv.co
+    appt_id: 3211e216-3cbf-4773-85c2-4be3d2498c69
+    location_id: 51328ab1-c127-49ed-a4f3-4859e194637f
+    booking_url: https://0-0-2-pickle-courts.rezerv.co/appointment-booking?apptId=3211e216-3cbf-4773-85c2-4be3d2498c69&locationId=51328ab1-c127-49ed-a4f3-4859e194637f
+
+  champions_field:
+    name: Champions Field
+    platform: rezerv
+    origin: https://champions-field.rezerv.co
+    appt_id: 5795aa96-fc59-47e0-8c0f-447d3a585205
+    location_id: 759f6fed-df2c-4522-8309-5c47e2c14385
+    booking_url: https://champions-field.rezerv.co/appointment-booking?apptId=5795aa96-fc59-47e0-8c0f-447d3a585205&locationId=759f6fed-df2c-4522-8309-5c47e2c14385&durationId=3b31ef1f-128b-4d23-9eed-e0e38bc465dd
+
+  paddle_play:
+    name: Paddle Play
+    platform: bookingdyno
+    page_slug: Paddle-Play-Pickleball-Courts
+    service_id: '{"iv":"9e320a0f9b04711308c59a377de5323b","content":"c8c70ba3204d6c80eacfb0b61e5e39","tag":"72facbb6b388165b323498250c3695d6"}'
+    listing_id: SIPAD2026000001
+    business_id: BIPAD2026000001
+    inventory_ids:
+      - IVPAD2026000001
+      - IVPAD2026000002
+      - IVPAD2026000003
+      - IVPAD2026000004
+      - IVPAD2026000005
+    booking_url: https://bookingdyno.com/publicview/bookingdetails/Paddle-Play-Pickleball-Courts?id=%7B%22iv%22%3A%229e320a0f9b04711308c59a377de5323b%22%2C%22content%22%3A%22c8c70ba3204d6c80eacfb0b61e5e39%22%2C%22tag%22%3A%2272facbb6b388165b323498250c3695d6%22%7D
+
+  pamilya_pickleball:
+    name: Pamilya Pickleball
+    platform: bookingdyno
+    page_slug: Pamilya-Pickleball-Courts
+    service_id: '{"iv":"04863cf5be7f4d0e0e3bce20cc56d3b3","content":"56336845afdf43f2c96d4149eb320d","tag":"88113adf2c01e8c55ca1ed48772fa86d"}'
+    listing_id: SIPAA2026000002
+    business_id: BIPAA2026000001
+    inventory_ids:
+      - IVPAA2026000001
+      - IVPAA2026000002
+    booking_url: https://bookingdyno.com/publicview/bookingdetails/Pamilya-Pickleball-Courts?id=%7B%22iv%22%3A%2204863cf5be7f4d0e0e3bce20cc56d3b3%22%2C%22content%22%3A%2256336845afdf43f2c96d4149eb320d%22%2C%22tag%22%3A%2288113adf2c01e8c55ca1ed48772fa86d%22%7D
+
+  pickle_point:
+    name: Pickle Point
+    platform: courtogo
+    venue_id: bb64ee5c-0361-40bf-b801-5af4c5770b93
+    slug: pickle-point
+    booking_url: https://www.courtogo.com/venues/pickle-point

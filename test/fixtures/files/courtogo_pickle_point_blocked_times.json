@@ -1,0 +1,16 @@
+{
+  "blockedTimes": [
+    {
+      "id": "72d8d666-8cbe-403b-8ca6-03abb46f5be8",
+      "venue_id": "bb64ee5c-0361-40bf-b801-5af4c5770b93",
+      "court_id": "e51ceb95-3af1-4573-8f2b-ba9849dbc211",
+      "block_type": "date",
+      "blocked_date": "2026-06-28",
+      "days_of_week": null,
+      "start_time": "12:00:00",
+      "end_time": "14:00:00",
+      "reason": "DILG"
+    }
+  ],
+  "exceptions": []
+}

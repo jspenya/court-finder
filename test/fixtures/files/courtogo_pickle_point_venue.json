@@ -1,0 +1,9 @@
+[
+  {
+    "operating_hours": {
+      "start": "08:00",
+      "end": "02:00",
+      "is_overnight": true
+    }
+  }
+]

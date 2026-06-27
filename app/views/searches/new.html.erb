@@ -1,0 +1,28 @@
+<main class="page" data-controller="search-form">
+  <header class="hero">
+    <div class="hero__content">
+      <p class="hero__eyebrow">Cagayan de Oro · Pickleball</p>
+      <h1 class="hero__title">
+        <span class="hero__title-line">Open</span>
+        <span class="hero__title-line hero__title-line--accent">Courts</span>
+      </h1>
+      <p class="hero__lede">One search across all Pickleball venues. See open slots, then book on the venue site.</p>
+    </div>
+  </header>
+
+  <div id="search-form">
+    <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
+  </div>
+
+  <div class="loading" data-search-form-target="loading" hidden>
+    <%= render "loading" %>
+  </div>
+
+  <%= turbo_frame_tag "results" do %>
+    <% if @results %>
+      <%= render "results", search: @search, results: @results, checked_at: @checked_at, empty: @empty %>
+    <% elsif @search_error.blank? %>
+      <p class="results__hint">Tap the date and time field, then check availability across all venues.</p>
+    <% end %>
+  <% end %>
+</main>

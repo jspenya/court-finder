@@ -1,0 +1,10 @@
+[
+  {
+    "court_id": "e51ceb95-3af1-4573-8f2b-ba9849dbc211",
+    "time_slot": "10:00:00",
+    "booking_date": "2026-06-28",
+    "bookings": {
+      "status": "confirmed"
+    }
+  }
+]

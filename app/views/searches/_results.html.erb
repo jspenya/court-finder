@@ -1,0 +1,26 @@
+<div class="results">
+  <% available_results = results.reject(&:error) %>
+
+  <% if available_results.any? %>
+    <div class="results__header">
+      <p class="results__count"><%= pluralize(available_results.size, "venue") %> with availability</p>
+      <p class="results__meta">Checked at <%= format_checked_at(checked_at) %></p>
+    </div>
+  <% else %>
+    <p class="results__meta">Checked at <%= format_checked_at(checked_at) %></p>
+  <% end %>
+
+  <% if empty %>
+    <%= render "empty", search: search, checked_at: checked_at %>
+  <% else %>
+    <div class="results__list">
+      <% results.each do |result| %>
+        <% if result.error %>
+          <%= render "error", result: result %>
+        <% else %>
+          <%= render "venue", result: result %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "e51ceb95-3af1-4573-8f2b-ba9849dbc211",
+    "name": "Court 1",
+    "court_number": 1
+  },
+  {
+    "id": "8eee076f-520e-4cb6-904f-d34c9e58115b",
+    "name": "Court 2",
+    "court_number": 2
+  }
+]

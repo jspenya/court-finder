@@ -1,0 +1,3 @@
+<%= turbo_stream.update "results" do %>
+  <%= render "results", search: @search, results: @results, checked_at: @checked_at, empty: @empty %>
+<% end %>

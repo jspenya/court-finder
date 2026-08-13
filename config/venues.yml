@@ -98,3 +98,12 @@ venues:
     address: Avancena St.
     maps_url: https://www.google.com/maps/search/?api=1&query=Pickle+Point+Avancena+Street+Cagayan+de+Oro
     booking_url: https://www.courtogo.com/venues/pickle-point
+
+  dink_district:
+    name: Dink District
+    platform: courtogo
+    venue_id: 9ce68a84-9fde-48a6-bb68-d728e73781c1
+    slug: dink-district
+    address: Tablon Hwy., Tablon-Baloy
+    maps_url: https://www.google.com/maps/search/?api=1&query=Dink+District+Tablon+Highway+Tablon-Baloy+Cagayan+de+Oro
+    booking_url: https://www.courtogo.com/venues/dink-district

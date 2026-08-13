@@ -17,5 +17,14 @@ module Availability
       assert_equal "St. Ignatius St., Macasandig", venue.address
       assert_includes venue.maps_url, "query="
     end
+
+    test "dink district is a courtogo venue in tablon-baloy" do
+      venue = VenueCatalog.find("dink_district")
+
+      assert_equal "Dink District", venue.name
+      assert venue.courtogo?
+      assert_equal "Tablon Hwy., Tablon-Baloy", venue.address
+      assert_equal "https://www.courtogo.com/venues/dink-district", venue.booking_url
+    end
   end
 end

@@ -19,8 +19,8 @@
   </div>
 
   <%= turbo_frame_tag "results", data: { search_form_target: "results" } do %>
-    <% if @results %>
-      <%= render "results", search: @search, results: @results, checked_at: @checked_at, empty: @empty %>
+    <% if @search %>
+      <%= render "results", search: @search %>
     <% elsif @search_error.blank? %>
       <p class="results__hint">Tap the date and time field, then check availability across all venues.</p>
     <% end %>

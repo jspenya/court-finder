@@ -1,0 +1,10 @@
+<article class="result result--pending" aria-busy="true">
+  <header class="result__header">
+    <div class="result__header-text">
+      <h2 class="result__title"><%= venue.name %></h2>
+      <%= venue_location_link(venue) %>
+      <p class="result__pending-label">Checking availability…</p>
+    </div>
+    <div class="loading__spinner" aria-hidden="true"></div>
+  </header>
+</article>

@@ -48,4 +48,23 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'turbo-stream action="replace" target="search-form"'
     assert_includes response.body, 'turbo-stream action="replace" target="search-loading"'
   end
+
+  test "returns venue frames without waiting on booking platforms" do
+    post search_path,
+      params: {
+        search: {
+          date: "2026-06-14",
+          play_time: "07:00",
+          play_time_end: "16:00"
+        }
+      },
+      headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    assert_response :success
+    assert_includes response.body, 'turbo-stream action="update" target="results"'
+    Availability::VenueCatalog.all.each do |venue|
+      assert_includes response.body, %(id="venue_#{venue.id}")
+      assert_includes response.body, search_venue_path(venue.id)
+    end
+  end
 end

@@ -11,10 +11,6 @@ class SearchesController < ApplicationController
       play_time: search_params[:play_time],
       play_time_end: search_params[:play_time_end]
     )
-    outcome = Availability::RunCheck.call(@search)
-    @results = outcome[:results]
-    @checked_at = outcome[:checked_at]
-    @empty = outcome[:empty]
     @search_defaults = search_params
     respond_to do |format|
       format.turbo_stream

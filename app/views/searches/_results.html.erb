@@ -1,26 +1,25 @@
-<div class="results">
-  <% available_results = results.reject(&:error) %>
+<% venues = Availability::VenueCatalog.all %>
 
-  <% if available_results.any? %>
-    <div class="results__header">
-      <p class="results__count"><%= pluralize(available_results.size, "venue") %> with availability</p>
-      <p class="results__meta">Checked at <%= format_checked_at(checked_at) %></p>
-    </div>
-  <% else %>
-    <p class="results__meta">Checked at <%= format_checked_at(checked_at) %></p>
-  <% end %>
+<div class="results"
+     data-controller="search-results"
+     data-search-results-venue-count-value="<%= venues.size %>"
+     data-search-results-play-time-value="<%= search.play_time.iso8601 %>">
+  <div class="results__header">
+    <p class="results__count" data-search-results-target="count" aria-live="polite">Checking <%= pluralize(venues.size, "venue") %>…</p>
+    <p class="results__meta" data-search-results-target="meta" hidden></p>
+  </div>
 
-  <% if empty %>
-    <%= render "empty", search: search, checked_at: checked_at %>
-  <% else %>
-    <div class="results__list">
-      <% results.each do |result| %>
-        <% if result.error %>
-          <%= render "error", result: result %>
-        <% else %>
-          <%= render "venue", result:, search: %>
-        <% end %>
+  <div class="results__list" data-search-results-target="list">
+    <% venues.each do |venue| %>
+      <%= turbo_frame_tag "venue_#{venue.id}",
+            src: search_venue_frame_path(venue, search),
+            data: { status: "pending" } do %>
+        <%= render "pending", venue: %>
       <% end %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+
+  <div data-search-results-target="empty" hidden>
+    <%= render "empty", search:, checked_at: Time.zone.now %>
+  </div>
 </div>

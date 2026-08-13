@@ -1,0 +1,15 @@
+<% status = venue_frame_status(@result) %>
+
+<%= turbo_frame_tag "venue_#{@result.venue.id}",
+      data: {
+        status:,
+        checked_at: format_checked_at(@result.checked_at),
+        earliest_slot: @result.earliest_slot_start&.iso8601,
+        venue_name: @result.venue.name
+      } do %>
+  <% if @result.error %>
+    <%= render "searches/error", result: @result %>
+  <% elsif @result.slots.any? %>
+    <%= render "searches/venue", result: @result, search: @search %>
+  <% end %>
+<% end %>

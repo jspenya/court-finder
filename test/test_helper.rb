@@ -11,6 +11,7 @@ module ActiveSupport
 
     setup do
       travel_to Time.zone.local(2026, 6, 13, 10, 0, 0)
+      Rails.cache.clear
     end
   end
 end

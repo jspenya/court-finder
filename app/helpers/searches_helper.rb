@@ -59,6 +59,25 @@ module SearchesHelper
     PLAY_WINDOW_PRESETS
   end
 
+  def search_venue_frame_path(venue, search)
+    search_venue_path(
+      venue.id,
+      date: search.date.iso8601,
+      play_time: search.play_time.strftime("%H:%M"),
+      play_time_end: search.play_time_end.strftime("%H:%M")
+    )
+  end
+
+  def venue_frame_status(result)
+    if result.error
+      "error"
+    elsif result.slots.any?
+      "available"
+    else
+      "empty"
+    end
+  end
+
   private
 
   def all_day_window?(search)

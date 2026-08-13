@@ -3,4 +3,5 @@ Rails.application.routes.draw do
 
   root "searches#new"
   post "search", to: "searches#create", as: :search
+  get "search/venues/:id", to: "search_venues#show", as: :search_venue
 end

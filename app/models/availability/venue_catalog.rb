@@ -2,7 +2,7 @@
 
 module Availability
   class VenueCatalog
-    Venue = Data.define(:id, :name, :platform, :booking_url, :config) do
+    Venue = Data.define(:id, :name, :platform, :booking_url, :address, :maps_url, :config) do
       def rezerv?
         platform == "rezerv"
       end
@@ -36,6 +36,8 @@ module Availability
           name: attrs.fetch("name"),
           platform: attrs.fetch("platform"),
           booking_url: attrs.fetch("booking_url"),
+          address: attrs.fetch("address"),
+          maps_url: attrs.fetch("maps_url"),
           config: attrs
         )
       end

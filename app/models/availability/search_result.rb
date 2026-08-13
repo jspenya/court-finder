@@ -13,5 +13,11 @@ module Availability
     def slots_by_court
       slots.group_by(&:court).sort_by { |court, _| court.to_s }
     end
+
+    def court_schedules
+      slots_by_court.map do |court_name, court_slots|
+        [ court_name, DayPart.group(court_slots) ]
+      end
+    end
   end
 end

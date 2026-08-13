@@ -2,6 +2,7 @@
   <header class="result__header">
     <div class="result__header-text">
       <h2 class="result__title"><%= result.venue.name %></h2>
+      <%= venue_location_link(result.venue) %>
       <p class="result__error">Could not check availability</p>
     </div>
   </header>

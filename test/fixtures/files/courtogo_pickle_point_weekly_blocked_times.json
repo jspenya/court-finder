@@ -1,0 +1,16 @@
+{
+  "blockedTimes": [
+    {
+      "id": "9c5f03b9-2fe6-4286-a037-d1d0858be8f8",
+      "venue_id": "bb64ee5c-0361-40bf-b801-5af4c5770b93",
+      "court_id": "e51ceb95-3af1-4573-8f2b-ba9849dbc211",
+      "block_type": "weekly",
+      "blocked_date": null,
+      "days_of_week": [4],
+      "start_time": "18:00:00",
+      "end_time": "22:00:00",
+      "reason": "0-0-2"
+    }
+  ],
+  "exceptions": []
+}

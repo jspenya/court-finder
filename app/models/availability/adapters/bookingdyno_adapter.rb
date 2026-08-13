@@ -8,7 +8,7 @@ module Availability
       BOOKING_DETAILS_ACTION = "getBookingDetailsRecords"
       BOOKING_DETAILS_ACTION_PATTERN =
         /createServerReference\)\("([0-9a-f]{40,64})"[^)]*findSourceMapURL,"#{BOOKING_DETAILS_ACTION}"/
-      CHUNK_PATH_PATTERN = %r{/_next/static/chunks/[a-f0-9]+\.js}
+      CHUNK_PATH_PATTERN = %r{/_next/static/chunks/[A-Za-z0-9._/-]+\.js}
 
       def fetch_slots(venue, search)
         token = visitor_token

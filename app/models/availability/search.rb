@@ -11,6 +11,7 @@ module Availability
       end_hour, end_minute = parse_time_parts(play_time_end)
       play_at = Time.zone.local(parsed_date.year, parsed_date.month, parsed_date.day, start_hour, start_minute)
       play_end_at = Time.zone.local(parsed_date.year, parsed_date.month, parsed_date.day, end_hour, end_minute)
+      play_end_at += 1.day if end_hour.zero? && end_minute.zero?
 
       validate!(parsed_date:, play_at:, play_end_at:)
 

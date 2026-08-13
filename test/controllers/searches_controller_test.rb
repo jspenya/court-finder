@@ -10,6 +10,13 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1.hero__title", text: /Open.*Courts/m
     assert_select "[data-controller='play-window-picker']"
     assert_select "form.search-form"
+    assert_select ".play-window-picker button", text: "Update", count: 0
+    assert_select ".play-window-picker button", text: "Cancel", count: 0
+    assert_select ".play-window-picker__preset-name", text: "All Day"
+    assert_select ".play-window-picker__preset-name", text: "Morning"
+    assert_select ".play-window-picker__preset-name", text: "Afternoon"
+    assert_select ".play-window-picker__preset-name", text: "Evening"
+    assert_select ".play-window-picker__preset-range", text: "5 PM–12 AM"
   end
 
   test "rejects past time windows" do

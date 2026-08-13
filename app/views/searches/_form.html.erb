@@ -53,6 +53,25 @@
                     value: search_defaults[:date] %>
             </div>
 
+            <div class="play-window-picker__presets" role="group" aria-label="Time of day">
+              <span class="play-window-picker__section-label">Time of day</span>
+              <div class="play-window-picker__preset-row">
+                <% play_window_presets.each do |preset| %>
+                  <button type="button"
+                          class="play-window-picker__preset"
+                          data-play-window-picker-target="preset"
+                          data-action="click->play-window-picker#applyPreset"
+                          data-play-window-picker-start-param="<%= preset[:start] %>"
+                          data-play-window-picker-end-param="<%= preset[:end] %>"
+                          aria-pressed="false"
+                          aria-label="<%= preset[:name] %>, <%= preset[:range] %>">
+                    <span class="play-window-picker__preset-name"><%= preset[:name] %></span>
+                    <span class="play-window-picker__preset-range"><%= preset[:range] %></span>
+                  </button>
+                <% end %>
+              </div>
+            </div>
+
             <div class="play-window-picker__times">
               <div class="play-window-picker__time-field">
                 <span class="play-window-picker__section-label">From</span>
@@ -81,19 +100,6 @@
           </div>
 
           <p class="play-window-picker__error" data-play-window-picker-target="error" hidden role="alert"></p>
-
-          <div class="play-window-picker__actions">
-            <button type="button"
-                    class="button button--ghost play-window-picker__action"
-                    data-action="click->play-window-picker#cancel">
-              Cancel
-            </button>
-            <button type="button"
-                    class="button button--primary play-window-picker__action"
-                    data-action="click->play-window-picker#update">
-              Update
-            </button>
-          </div>
         </div>
       </div>
     </label>

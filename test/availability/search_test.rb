@@ -22,5 +22,19 @@ module Availability
         Search.build(date: "2026-06-14", play_time: "16:00", play_time_end: "13:00")
       end
     end
+
+    test "midnight end time is the end of the selected date" do
+      search = Search.build(date: "2026-06-14", play_time: "17:00", play_time_end: "00:00")
+
+      assert_equal Time.zone.local(2026, 6, 14, 17, 0), search.play_time
+      assert_equal Time.zone.local(2026, 6, 15, 0, 0), search.play_time_end
+    end
+
+    test "all-day window spans midnight to next midnight" do
+      search = Search.build(date: "2026-06-14", play_time: "00:00", play_time_end: "00:00")
+
+      assert_equal Time.zone.local(2026, 6, 14, 0, 0), search.play_time
+      assert_equal Time.zone.local(2026, 6, 15, 0, 0), search.play_time_end
+    end
   end
 end

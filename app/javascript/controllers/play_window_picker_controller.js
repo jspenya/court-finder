@@ -13,6 +13,7 @@ export default class extends Controller {
     "playTimeInput",
     "playTimeEndInput",
     "error",
+    "preset",
   ]
 
   static values = {
@@ -30,6 +31,7 @@ export default class extends Controller {
     this.playTimeEndPicker = flatpickr(this.playTimeEndInputTarget, this.timeOptions(this.playTimeEndInputTarget, this.committed.playTimeEnd, this.playTimeEndChanged.bind(this)))
 
     this.updateTriggerLabel()
+    this.highlightActivePreset()
   }
 
   disconnect() {
@@ -70,21 +72,6 @@ export default class extends Controller {
     this.removeDocumentListeners()
   }
 
-  update(event) {
-    event.stopPropagation()
-
-    const error = this.validateDraft()
-    if (error) {
-      this.showError(error)
-      return
-    }
-
-    this.committed = { ...this.draft }
-    this.writeToFields()
-    this.updateTriggerLabel()
-    this.cancel()
-  }
-
   dateOptions() {
     return {
       appendTo: this.dateInputTarget.closest(".play-window-picker__date"),
@@ -95,6 +82,7 @@ export default class extends Controller {
       minDate: this.minDateValue || "today",
       onChange: (_selectedDates, dateStr) => {
         this.draft.date = dateStr
+        this.commitDraft()
       },
     }
   }
@@ -130,10 +118,35 @@ export default class extends Controller {
 
   playTimeChanged(timeStr) {
     this.draft.playTime = timeStr
+    this.commitDraft()
   }
 
   playTimeEndChanged(timeStr) {
     this.draft.playTimeEnd = timeStr
+    this.commitDraft()
+  }
+
+  commitDraft() {
+    const error = this.validateDraft()
+    if (error) {
+      this.showError(error)
+      return
+    }
+
+    this.clearError()
+    this.committed = { ...this.draft }
+    this.writeToFields()
+    this.updateTriggerLabel()
+    this.highlightActivePreset()
+  }
+
+  applyPreset(event) {
+    event.stopPropagation()
+
+    this.draft.playTime = event.params.start
+    this.draft.playTimeEnd = event.params.end
+    this.syncPickersFromDraft()
+    this.commitDraft()
   }
 
   readFromFields() {
@@ -163,7 +176,7 @@ export default class extends Controller {
       return "Select a date and time window"
     }
 
-    if (playTimeEnd <= playTime) {
+    if (this.endMinutes(playTimeEnd) <= this.timeToMinutes(playTime)) {
       return "End time must be after start time"
     }
 
@@ -183,8 +196,41 @@ export default class extends Controller {
       ? flatpickr.formatDate(parsedDate, "l, F j, Y")
       : date
 
-    this.triggerLabelTarget.textContent =
-      `${dateLabel} · ${this.formatTime12(playTime)} → ${this.formatTime12(playTimeEnd)}`
+    const windowLabel = this.matchingPresetName() ||
+      `${this.formatTime12(playTime)} → ${this.formatTime12(playTimeEnd)}`
+
+    this.triggerLabelTarget.textContent = `${dateLabel} · ${windowLabel}`
+  }
+
+  matchingPresetName() {
+    const match = this.presetTargets.find((button) => this.presetMatches(button, this.committed))
+    return match?.querySelector(".play-window-picker__preset-name")?.textContent.trim() || null
+  }
+
+  highlightActivePreset() {
+    this.presetTargets.forEach((button) => {
+      const active = this.presetMatches(button, this.committed)
+      button.classList.toggle("is-active", active)
+      button.setAttribute("aria-pressed", active ? "true" : "false")
+    })
+  }
+
+  presetMatches(button, window) {
+    return button.dataset.playWindowPickerStartParam === window.playTime &&
+      button.dataset.playWindowPickerEndParam === window.playTimeEnd
+  }
+
+  endMinutes(timeStr) {
+    const minutes = this.timeToMinutes(timeStr)
+    return minutes === 0 ? 24 * 60 : minutes
+  }
+
+  timeToMinutes(timeStr) {
+    const [hourPart, minutePart] = timeStr.split(":")
+    const hour = Number.parseInt(hourPart, 10)
+    const minute = Number.parseInt(minutePart, 10)
+
+    return hour * 60 + minute
   }
 
   formatTime12(timeStr) {

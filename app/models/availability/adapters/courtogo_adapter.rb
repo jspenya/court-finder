@@ -125,8 +125,7 @@ module Availability
         when "date"
           blocked.fetch("blocked_date") == slot_booking_date(session_date, minutes, operating_hours).iso8601
         when "weekly"
-          day = session_date.wday.to_s
-          blocked.fetch("days_of_week", []).include?(day)
+          blocked.fetch("days_of_week", []).map(&:to_i).include?(session_date.wday)
         else
           false
         end

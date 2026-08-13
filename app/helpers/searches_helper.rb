@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 module SearchesHelper
+  PLAY_WINDOW_PRESETS = [
+    { name: "All Day", start: "00:00", end: "00:00", range: "Any time" },
+    { name: "Morning", start: "08:00", end: "12:00", range: "8 AM–12 PM" },
+    { name: "Afternoon", start: "12:00", end: "17:00", range: "12–5 PM" },
+    { name: "Evening", start: "17:00", end: "00:00", range: "5 PM–12 AM" }
+  ].freeze
+
   def format_checked_at(time)
     time.strftime("%-I:%M %p")
   end
@@ -31,6 +38,8 @@ module SearchesHelper
   end
 
   def format_play_time_window(search)
+    return "all day" if all_day_window?(search)
+
     start_label = search.play_time.strftime("%-I:%M %p")
     end_label = search.play_time_end.strftime("%-I:%M %p")
     "#{start_label} – #{end_label}"
@@ -40,5 +49,21 @@ module SearchesHelper
     return if search.date == Time.zone.today
 
     "Select #{search.date.strftime('%-b %-d')} on their site"
+  end
+
+  def venue_location_link(venue)
+    render "searches/location", venue:
+  end
+
+  def play_window_presets
+    PLAY_WINDOW_PRESETS
+  end
+
+  private
+
+  def all_day_window?(search)
+    search.play_time.hour.zero? &&
+      search.play_time.min.zero? &&
+      search.play_time_end == search.play_time + 1.day
   end
 end

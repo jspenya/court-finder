@@ -28,7 +28,7 @@ module Availability
 
       def stub_bookingdyno_requests(venue)
         action_id = "400c83e2a02b6f777cca206a800c69c7647292386a"
-        chunk_path = "/_next/static/chunks/abc123def456.js"
+        chunk_path = "/_next/static/chunks/0vs2ou0bv3ydu.js"
 
         stub_request(:post, "https://bookingdyno.com/api/public/requestToken")
           .to_return(status: 200, body: { token: "visitor-token" }.to_json)

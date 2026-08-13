@@ -25,9 +25,30 @@ module Availability
         assert slots.any? { |slot| slot.starts_at.hour == 14 && slot.court == "Court 1" }
       end
 
+      test "excludes weekly blocked slots when days_of_week are integers" do
+        venue = VenueCatalog.find("pickle_point")
+        search = Search.new(
+          date: Date.new(2026, 8, 13),
+          play_time: Time.zone.local(2026, 8, 13, 20, 0),
+          play_time_end: Time.zone.local(2026, 8, 13, 21, 0)
+        )
+
+        stub_courtogo_requests(
+          venue,
+          bookings: "[]",
+          blocked_times: file_fixture("courtogo_pickle_point_weekly_blocked_times.json").read
+        )
+
+        slots = CourtogoAdapter.new.fetch_slots(venue, search)
+
+        assert_not slots.any? { |slot| slot.starts_at.hour == 20 && slot.court == "Court 1" }
+        assert slots.any? { |slot| slot.starts_at.hour == 8 && slot.court == "Court 1" }
+        assert slots.any? { |slot| slot.starts_at.hour == 20 && slot.court == "Court 2" }
+      end
+
       private
 
-      def stub_courtogo_requests(venue)
+      def stub_courtogo_requests(venue, bookings: nil, blocked_times: nil)
         venue_id = venue.config.fetch("venue_id")
 
         stub_request(:get, %r{nmhfoxlndbrwtkvnpxaj\.supabase\.co/rest/v1/courts})
@@ -37,10 +58,16 @@ module Availability
           .to_return(status: 200, body: file_fixture("courtogo_pickle_point_venue.json").read)
 
         stub_request(:get, %r{nmhfoxlndbrwtkvnpxaj\.supabase\.co/rest/v1/booking_slots})
-          .to_return(status: 200, body: file_fixture("courtogo_pickle_point_bookings.json").read)
+          .to_return(
+            status: 200,
+            body: bookings || file_fixture("courtogo_pickle_point_bookings.json").read
+          )
 
         stub_request(:get, %r{www\.courtogo\.com/api/venues/#{venue_id}/blocked-times})
-          .to_return(status: 200, body: file_fixture("courtogo_pickle_point_blocked_times.json").read)
+          .to_return(
+            status: 200,
+            body: blocked_times || file_fixture("courtogo_pickle_point_blocked_times.json").read
+          )
       end
     end
   end

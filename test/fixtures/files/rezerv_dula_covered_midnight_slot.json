@@ -1,0 +1,24 @@
+{
+  "code": 0,
+  "message": "Success",
+  "data": {
+    "resourceSlots": [
+      {
+        "id": "7-korte-septimo",
+        "name": "7 Korte Septimo (Covered)",
+        "slots": [
+          {
+            "startTime": "22:00:00",
+            "endTime": "23:00:00",
+            "status": "Available"
+          },
+          {
+            "startTime": "23:00:00",
+            "endTime": "1.00:00:00",
+            "status": "Available"
+          }
+        ]
+      }
+    ]
+  }
+}

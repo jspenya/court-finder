@@ -22,10 +22,32 @@ module Availability
         assert slots.all? { |slot| slot.ends_at > slot.starts_at }
       end
 
+      test "parses next-day midnight end times as the following midnight" do
+        venue = VenueCatalog.find("dula_lifestyle_hub_covered")
+        search = Search.new(
+          date: Date.new(2026, 8, 13),
+          play_time: Time.zone.local(2026, 8, 13, 17, 0),
+          play_time_end: Time.zone.local(2026, 8, 14, 0, 0)
+        )
+
+        stub_rezerv_request(venue, fixture: "rezerv_dula_covered_midnight_slot.json")
+
+        slots = RezervAdapter.new.fetch_slots(venue, search)
+
+        assert_equal [
+          Time.zone.local(2026, 8, 13, 22, 0),
+          Time.zone.local(2026, 8, 13, 23, 0)
+        ], slots.map(&:starts_at)
+        assert_equal [
+          Time.zone.local(2026, 8, 13, 23, 0),
+          Time.zone.local(2026, 8, 14, 0, 0)
+        ], slots.map(&:ends_at)
+      end
+
       private
 
-      def stub_rezerv_request(venue)
-        body = file_fixture("rezerv_pickle_village_2026-06-14.json").read
+      def stub_rezerv_request(venue, fixture: "rezerv_pickle_village_2026-06-14.json")
+        body = file_fixture(fixture).read
         stub_request(:get, /customer-api\.rezerv\.co\/v3\/appt-schedule\/timeslot_calendar/)
           .with(headers: { "Origin" => venue.config.fetch("origin") })
           .to_return(status: 200, body:)

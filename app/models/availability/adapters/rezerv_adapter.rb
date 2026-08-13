@@ -41,8 +41,16 @@ module Availability
       end
 
       def time_on(date, clock_time)
-        hour, minute, second = clock_time.split(":").map(&:to_i)
-        Time.zone.local(date.year, date.month, date.day, hour, minute, second)
+        days, time_part = split_timespan(clock_time)
+        hour, minute, second = time_part.split(":").map(&:to_i)
+        Time.zone.local(date.year, date.month, date.day, hour, minute, second) + days.days
+      end
+
+      def split_timespan(clock_time)
+        day_part, time_part = clock_time.split(".", 2)
+        return [ 0, clock_time ] if time_part.nil?
+
+        [ day_part.to_i, time_part ]
       end
     end
   end

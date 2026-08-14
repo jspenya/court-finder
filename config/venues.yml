@@ -116,3 +116,11 @@ venues:
     address: Mayor H. Avancena St., Gumamela Extension
     maps_url: https://www.google.com/maps/search/?api=1&query=Courtly+Pickleball+Mayor+H+Avancena+Gumamela+Extension+Cagayan+de+Oro
     booking_url: https://www.courtogo.com/venues/courtly-pickleball-cdo
+
+  fliqshot:
+    name: Fliqshot Pickleball Courts
+    platform: managesports
+    slug: fliqshot
+    address: Cagayan de Oro
+    maps_url: https://www.google.com/maps/search/?api=1&query=Fliqshot+Pickleball+Courts+Cagayan+de+Oro
+    booking_url: https://fliqshot.ph/booking

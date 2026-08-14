@@ -14,6 +14,10 @@ module Availability
       def courtogo?
         platform == "courtogo"
       end
+
+      def managesports?
+        platform == "managesports"
+      end
     end
 
     def self.all

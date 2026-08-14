@@ -54,6 +54,8 @@ module Availability
         Adapters::BookingdynoAdapter.new
       elsif venue.courtogo?
         Adapters::CourtogoAdapter.new
+      elsif venue.managesports?
+        Adapters::ManagesportsAdapter.new
       else
         raise AdapterError, "Unknown platform for #{venue.name}"
       end

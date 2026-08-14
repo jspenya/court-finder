@@ -107,3 +107,12 @@ venues:
     address: Tablon Hwy., Tablon-Baloy
     maps_url: https://www.google.com/maps/search/?api=1&query=Dink+District+Tablon+Highway+Tablon-Baloy+Cagayan+de+Oro
     booking_url: https://www.courtogo.com/venues/dink-district
+
+  courtly:
+    name: Courtly
+    platform: courtogo
+    venue_id: 2b247163-ee55-4b45-b395-f32c298ef014
+    slug: courtly-pickleball-cdo
+    address: Mayor H. Avancena St., Gumamela Extension
+    maps_url: https://www.google.com/maps/search/?api=1&query=Courtly+Pickleball+Mayor+H+Avancena+Gumamela+Extension+Cagayan+de+Oro
+    booking_url: https://www.courtogo.com/venues/courtly-pickleball-cdo

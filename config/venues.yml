@@ -90,6 +90,20 @@ venues:
     maps_url: https://www.google.com/maps/search/?api=1&query=Pamilya+Pickleball+Macapagal+Drive+Canitoan+Cagayan+de+Oro
     booking_url: https://bookingdyno.com/publicview/bookingdetails/Pamilya-Pickleball-Courts?id=%7B%22iv%22%3A%2204863cf5be7f4d0e0e3bce20cc56d3b3%22%2C%22content%22%3A%2256336845afdf43f2c96d4149eb320d%22%2C%22tag%22%3A%2288113adf2c01e8c55ca1ed48772fa86d%22%7D
 
+  c_one:
+    name: C-One SM Uptown
+    platform: bookingdyno
+    page_slug: C-ONE-Pickleball-Courts
+    service_id: '{"iv":"5c064486d750b413c44c0ec13453f54b","content":"2c883ba297eeb161f10ed08e958d75","tag":"efbd2898fbe76261b91ce4b3ae45a86f"}'
+    listing_id: SICOS2026000002
+    business_id: BICOS2026000002
+    inventory_ids:
+      - IVCOS2026000007
+      - IVCOS2026000008
+    address: Masterson Ave., Uptown
+    maps_url: https://www.google.com/maps/search/?api=1&query=C-One+Pickleball+SM+Uptown+Masterson+Avenue+Cagayan+de+Oro
+    booking_url: https://bookingdyno.com/publicview/bookingdetails/C-ONE-Pickleball-Courts?id=%7B%22iv%22%3A%225c064486d750b413c44c0ec13453f54b%22%2C%22content%22%3A%222c883ba297eeb161f10ed08e958d75%22%2C%22tag%22%3A%22efbd2898fbe76261b91ce4b3ae45a86f%22%7D
+
   pickle_point:
     name: Pickle Point
     platform: courtogo

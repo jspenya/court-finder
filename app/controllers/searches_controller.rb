@@ -2,7 +2,17 @@
 
 class SearchesController < ApplicationController
   def new
-    @search_defaults = default_search_params
+    shared_params = shared_search_params.to_h.symbolize_keys
+    @search_defaults = default_search_params.merge(shared_params)
+    return unless [ :date, :play_time, :play_time_end ].all? { |key| shared_params[key].present? }
+
+    @search = Availability::Search.build(
+      date: shared_params[:date],
+      play_time: shared_params[:play_time],
+      play_time_end: shared_params[:play_time_end]
+    )
+  rescue Availability::InvalidSearch => e
+    @search_error = e.message
   end
 
   def create
@@ -29,6 +39,10 @@ class SearchesController < ApplicationController
 
   def search_params
     params.expect(search: [ :date, :play_time, :play_time_end ])
+  end
+
+  def shared_search_params
+    params.permit(:date, :play_time, :play_time_end)
   end
 
   def default_search_params

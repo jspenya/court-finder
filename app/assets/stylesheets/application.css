@@ -199,6 +199,15 @@ body {
   border-radius: var(--radius-md);
 }
 
+/* Keep Flatpickr's fixed-width date grid inside the responsive panel. */
+.play-window-picker__date .flatpickr-rContainer,
+.play-window-picker__date .flatpickr-days,
+.play-window-picker__date .dayContainer {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
 .play-window-picker__section-label {
   display: block;
   margin-bottom: 0.3rem;

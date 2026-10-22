@@ -125,6 +125,11 @@ module Availability
         case blocked.fetch("block_type")
         when "date"
           blocked.fetch("blocked_date") == slot_booking_date(session_date, minutes, operating_hours).iso8601
+        when "daily"
+          booking_date = slot_booking_date(session_date, minutes, operating_hours).iso8601
+          starts_on = blocked["recurrence_start_date"]
+          ends_on = blocked["recurrence_end_date"]
+          (starts_on.nil? || booking_date >= starts_on) && (ends_on.nil? || booking_date <= ends_on)
         when "weekly"
           blocked.fetch("days_of_week", []).map(&:to_i).include?(session_date.wday)
         else

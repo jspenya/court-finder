@@ -64,6 +64,47 @@ module Availability
         assert_empty CourtogoAdapter.new.fetch_slots(venue, search)
       end
 
+      test "excludes Dink District daily blocks and named tournament reservations" do
+        venue = VenueCatalog.find("dink_district")
+        fixture = JSON.parse(file_fixture("courtogo_dink_district.json").read)
+        stub_courtogo_requests(venue, bookings: "[]", blocked_times: fixture.fetch("blocked_times").to_json)
+        stub_request(:get, %r{nmhfoxlndbrwtkvnpxaj\.supabase\.co/rest/v1/courts})
+          .to_return(body: fixture.fetch("courts").to_json)
+        stub_request(:get, %r{nmhfoxlndbrwtkvnpxaj\.supabase\.co/rest/v1/venues})
+          .to_return(body: fixture.fetch("venue").to_json)
+        search = Search.build(date: "2026-10-24", play_time: "08:00", play_time_end: "09:00")
+
+        slots = CourtogoAdapter.new.fetch_slots(venue, search)
+
+        assert_not slots.any? { |slot| slot.court == "Court 9" }, "Daily blocked Court 9 must never appear available"
+        assert_equal (0...8).to_a, slots.select { |slot| slot.court == "Court 1" }.map { |slot| slot.starts_at.hour }
+        assert_equal 24, slots.count { |slot| slot.court == "Training Room 1" }
+      end
+
+      test "daily blocks respect inclusive recurrence dates and allow unnamed venue-wide blocks" do
+        venue = VenueCatalog.find("pickle_point")
+        block = {
+          court_id: nil, block_type: "daily", reason: nil,
+          start_time: "12:00:00", end_time: "14:00:00",
+          recurrence_start_date: "2026-10-23", recurrence_end_date: "2026-10-25"
+        }
+        stub_courtogo_requests(venue, bookings: "[]", blocked_times: { blockedTimes: [ block ] }.to_json)
+
+        (22..26).each do |day|
+          search = Search.build(date: "2026-10-#{day}", play_time: "12:00", play_time_end: "14:00")
+          slots = CourtogoAdapter.new.fetch_slots(venue, search)
+
+          assert_equal !day.between?(23, 25), slots.any? { |slot| slot.starts_at.hour == 12 }, "October #{day}"
+          assert slots.any? { |slot| slot.starts_at.hour == 14 }
+        end
+
+        block[:recurrence_start_date] = nil
+        block[:recurrence_end_date] = nil
+        stub_courtogo_requests(venue, bookings: "[]", blocked_times: { blockedTimes: [ block ] }.to_json)
+        search = Search.build(date: "2026-10-26", play_time: "12:00", play_time_end: "14:00")
+        assert_not CourtogoAdapter.new.fetch_slots(venue, search).any? { |slot| slot.starts_at.hour == 12 }
+      end
+
       private
 
       def stub_courtogo_requests(venue, bookings: nil, blocked_times: nil)

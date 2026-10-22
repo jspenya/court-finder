@@ -1,0 +1,55 @@
+{
+  "courts": [
+    {
+      "id": "0c2e3590-8376-4ccb-ac68-ea93e78a9ef8",
+      "name": "Court 1",
+      "court_number": 1
+    },
+    {
+      "id": "a2c70d9a-3535-4723-b73c-a70c579049f8",
+      "name": "Court 9",
+      "court_number": 9
+    },
+    {
+      "id": "e1b66527-bdce-4e6f-aded-8c4798e3e439",
+      "name": "Training Room 1",
+      "court_number": 14
+    }
+  ],
+  "venue": [
+    {
+      "operating_hours": {
+        "end": "00:00",
+        "start": "00:00",
+        "is_overnight": false
+      }
+    }
+  ],
+  "blocked_times": {
+    "blockedTimes": [
+      {
+        "court_id": "a2c70d9a-3535-4723-b73c-a70c579049f8",
+        "block_type": "daily",
+        "blocked_date": null,
+        "days_of_week": null,
+        "start_time": "00:00:00",
+        "end_time": "24:00:00",
+        "reason": null,
+        "recurrence_start_date": "2026-10-23",
+        "recurrence_end_date": "2026-10-25"
+      },
+      {
+        "court_id": "0c2e3590-8376-4ccb-ac68-ea93e78a9ef8",
+        "block_type": "date",
+        "blocked_date": "2026-10-24",
+        "days_of_week": null,
+        "start_time": "08:00:00",
+        "end_time": "24:00:00",
+        "reason": "Dink Royale Tournament",
+        "recurrence_start_date": null,
+        "recurrence_end_date": null
+      }
+    ],
+    "exceptions": []
+  }
+}

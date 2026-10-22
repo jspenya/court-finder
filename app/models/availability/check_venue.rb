@@ -62,6 +62,10 @@ module Availability
         Adapters::MatchpointAdapter.new
       elsif venue.platform == "kourtsuite"
         Adapters::KourtsuiteAdapter.new
+      elsif venue.platform == "pickleplay"
+        Adapters::PickleplayAdapter.new
+      elsif venue.platform == "khourt"
+        Adapters::KhourtAdapter.new
       else
         raise AdapterError, "Unknown platform for #{venue.name}"
       end

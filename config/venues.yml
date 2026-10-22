@@ -1,4 +1,24 @@
 venues:
+  pikol:
+    name: Pikol
+    platform: khourt
+    slug: pikol
+    courts:
+      - id: 69f49517327bc61e999c61fc
+        name: Blue Court
+      - id: 6a563f5fe0dbabe6b96b9d0c
+        name: Green Court
+    address: Ecoverde, Indahag
+    maps_url: https://www.google.com/maps/search/?api=1&query=Pikol+Ecoverde+Indahag+Cagayan+de+Oro
+    booking_url: https://www.khourt.com/pikol/book
+
+  the_playground:
+    name: The Playground Pickleball
+    platform: pickleplay
+    address: Piot Heights Compound, Camaman-an
+    maps_url: https://www.google.com/maps/search/?api=1&query=The+Playground+Pickleball+Piot+Heights+Compound+Camaman-an+Cagayan+de+Oro
+    booking_url: https://pickleplay-pro.onrender.com/
+
   top_pick:
     name: Top Pick
     platform: kourtsuite

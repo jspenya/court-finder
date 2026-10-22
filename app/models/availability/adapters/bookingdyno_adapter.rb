@@ -31,6 +31,7 @@ module Availability
           blocked_ids = unavailable_by_label[label] || []
           starts_at = time_on(search.date, entry.fetch("timeFrom"))
           ends_at = time_on(search.date, entry.fetch("timeTo"))
+          ends_at += 1.day if ends_at <= starts_at
 
           inventory_ids.filter_map do |inventory_id|
             next if blocked_ids.include?(inventory_id)

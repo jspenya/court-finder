@@ -15,6 +15,7 @@ module Availability
         venue_id = venue.config.fetch("venue_id")
         courts = fetch_courts(venue_id)
         operating_hours = fetch_operating_hours(venue_id)
+        operating_hours = operating_hours.merge(operating_hours.dig("day_overrides", search.date.wday.to_s) || {})
         return [] if operating_hours.fetch("closed", false)
 
         slot_times = hourly_slot_times(operating_hours)

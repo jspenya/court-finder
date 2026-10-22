@@ -46,6 +46,24 @@ module Availability
         assert slots.any? { |slot| slot.starts_at.hour == 20 && slot.court == "Court 2" }
       end
 
+      test "uses Frontyard weekday overrides including closed days" do
+        venue = VenueCatalog.find("frontyard")
+        search = Search.build(date: "2026-06-14", play_time: "21:00", play_time_end: "23:00")
+        stub_courtogo_requests(venue, bookings: "[]", blocked_times: '{"blockedTimes":[]}')
+        hours = { start: "06:00", end: "22:00", day_overrides: { "0" => { end: "23:00" } } }
+        stub_request(:get, %r{nmhfoxlndbrwtkvnpxaj\.supabase\.co/rest/v1/venues})
+          .to_return(body: [ { operating_hours: hours } ].to_json)
+
+        slots = CourtogoAdapter.new.fetch_slots(venue, search)
+        assert slots.any? { |slot| slot.starts_at.hour == 22 }
+        assert_not slots.any? { |slot| slot.starts_at.hour == 23 }
+
+        hours[:day_overrides]["0"] = { closed: true }
+        stub_request(:get, %r{nmhfoxlndbrwtkvnpxaj\.supabase\.co/rest/v1/venues})
+          .to_return(body: [ { operating_hours: hours } ].to_json)
+        assert_empty CourtogoAdapter.new.fetch_slots(venue, search)
+      end
+
       private
 
       def stub_courtogo_requests(venue, bookings: nil, blocked_times: nil)

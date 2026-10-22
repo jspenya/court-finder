@@ -56,6 +56,12 @@ module Availability
         Adapters::CourtogoAdapter.new
       elsif venue.managesports?
         Adapters::ManagesportsAdapter.new
+      elsif venue.platform == "qsports"
+        Adapters::QsportsAdapter.new
+      elsif venue.platform == "matchpoint"
+        Adapters::MatchpointAdapter.new
+      elsif venue.platform == "kourtsuite"
+        Adapters::KourtsuiteAdapter.new
       else
         raise AdapterError, "Unknown platform for #{venue.name}"
       end

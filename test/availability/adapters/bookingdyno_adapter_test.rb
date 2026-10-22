@@ -24,6 +24,24 @@ module Availability
         assert_not slots.any? { |slot| slot.starts_at.hour == 10 }
       end
 
+      test "Center Court midnight slot ends on the following day" do
+        venue = VenueCatalog.find("center_court")
+        search = Search.build(date: "2026-06-14", play_time: "22:00", play_time_end: "23:00")
+        stub_bookingdyno_requests(venue)
+        record = {
+          availableTimes: [ { label: "11PM - 12AM", timeFrom: "23:00:00", timeTo: "00:00:00" } ],
+          inventoryRooms: venue.config.fetch("inventory_ids").map.with_index { |id, i| { inventoryId: id, name: "Court #{i + 1}" } }
+        }
+        stub_request(:post, bookingdyno_page_url(venue))
+          .to_return(body: "0:{}\n1:#{ { data: [ record ] }.to_json}")
+
+        slots = BookingdynoAdapter.new.fetch_slots(venue, search)
+
+        assert_equal 6, slots.size
+        assert_equal Time.zone.local(2026, 6, 15), slots.first.ends_at
+        assert_equal 1.hour, slots.first.ends_at - slots.first.starts_at
+      end
+
       private
 
       def stub_bookingdyno_requests(venue)

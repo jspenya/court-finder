@@ -9,7 +9,8 @@ class SearchesController < ApplicationController
     @search = Availability::Search.build(
       date: shared_params[:date],
       play_time: shared_params[:play_time],
-      play_time_end: shared_params[:play_time_end]
+      play_time_end: shared_params[:play_time_end],
+      day_parts: shared_params[:day_parts]
     )
   rescue Availability::InvalidSearch => e
     @search_error = e.message
@@ -19,7 +20,8 @@ class SearchesController < ApplicationController
     @search = Availability::Search.build(
       date: search_params[:date],
       play_time: search_params[:play_time],
-      play_time_end: search_params[:play_time_end]
+      play_time_end: search_params[:play_time_end],
+      day_parts: search_params[:day_parts]
     )
     @search_defaults = search_params
     respond_to do |format|
@@ -38,11 +40,11 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.expect(search: [ :date, :play_time, :play_time_end ])
+    params.expect(search: [ :date, :play_time, :play_time_end, :day_parts ])
   end
 
   def shared_search_params
-    params.permit(:date, :play_time, :play_time_end)
+    params.permit(:date, :play_time, :play_time_end, :day_parts)
   end
 
   def default_search_params

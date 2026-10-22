@@ -1,8 +1,38 @@
 # frozen_string_literal: true
 
 module Availability
-  Search = Data.define(:date, :play_time, :play_time_end) do
-    def self.build(date:, play_time:, play_time_end:)
+  Search = Data.define(:date, :play_time, :play_time_end, :day_parts) do
+    PERIODS = {
+      "morning" => [ "08:00", "12:00" ],
+      "afternoon" => [ "12:00", "17:00" ],
+      "evening" => [ "17:00", "00:00" ]
+    }.freeze
+
+    def initialize(date:, play_time:, play_time_end:, day_parts: [])
+      super
+    end
+
+    def time_windows
+      return [ [ play_time, play_time_end ] ] if day_parts.empty?
+
+      day_parts.map do |part|
+        PERIODS.fetch(part).map.with_index do |clock, index|
+          hour = clock.split(":").first.to_i
+          time = Time.zone.local(date.year, date.month, date.day, hour)
+          index == 1 && hour.zero? ? time + 1.day : time
+        end
+      end
+    end
+
+    def self.build(date:, play_time:, play_time_end:, day_parts: nil)
+      selected_parts = day_parts.to_s.split(",").uniq
+      raise InvalidSearch, "Select a valid time of day" if (selected_parts - PERIODS.keys).any?
+
+      selected_parts = PERIODS.keys & selected_parts
+      if selected_parts.any?
+        play_time = PERIODS.fetch(selected_parts.first).first
+        play_time_end = PERIODS.fetch(selected_parts.last).last
+      end
       raise InvalidSearch, "Select a start time" if play_time.blank?
       raise InvalidSearch, "Select an end time" if play_time_end.blank?
 
@@ -15,7 +45,7 @@ module Availability
 
       validate!(parsed_date:, play_at:, play_end_at:)
 
-      new(date: parsed_date, play_time: play_at, play_time_end: play_end_at)
+      new(date: parsed_date, play_time: play_at, play_time_end: play_end_at, day_parts: selected_parts)
     end
 
     def self.parse_time_parts(time)

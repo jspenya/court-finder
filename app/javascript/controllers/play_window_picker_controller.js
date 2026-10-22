@@ -7,6 +7,7 @@ export default class extends Controller {
     "triggerLabel",
     "panel",
     "dateField",
+    "dayPartsField",
     "playTimeField",
     "playTimeEndField",
     "dateInput",
@@ -14,6 +15,7 @@ export default class extends Controller {
     "playTimeEndInput",
     "error",
     "preset",
+    "stackHint",
   ]
 
   static values = {
@@ -117,11 +119,13 @@ export default class extends Controller {
   }
 
   playTimeChanged(timeStr) {
+    this.draft.dayParts = []
     this.draft.playTime = timeStr
     this.commitDraft()
   }
 
   playTimeEndChanged(timeStr) {
+    this.draft.dayParts = []
     this.draft.playTimeEnd = timeStr
     this.commitDraft()
   }
@@ -143,8 +147,24 @@ export default class extends Controller {
   applyPreset(event) {
     event.stopPropagation()
 
-    this.draft.playTime = event.params.start
-    this.draft.playTimeEnd = event.params.end
+    const part = event.params.part
+    const activeParts = this.draft.dayParts.length ? this.draft.dayParts :
+      this.presetTargets.filter((button) => this.presetMatches(button, this.draft))
+        .map((button) => button.dataset.playWindowPickerPartParam).filter(Boolean)
+    const selected = new Set(activeParts)
+    if (!part) {
+      selected.clear()
+    } else if (selected.has(part)) {
+      selected.delete(part)
+    } else {
+      selected.add(part)
+    }
+
+    const buttons = this.presetTargets.filter((button) =>
+      selected.has(button.dataset.playWindowPickerPartParam))
+    this.draft.dayParts = buttons.map((button) => button.dataset.playWindowPickerPartParam)
+    this.draft.playTime = buttons[0]?.dataset.playWindowPickerStartParam || "00:00"
+    this.draft.playTimeEnd = buttons.at(-1)?.dataset.playWindowPickerEndParam || "00:00"
     this.syncPickersFromDraft()
     this.commitDraft()
   }
@@ -152,12 +172,14 @@ export default class extends Controller {
   readFromFields() {
     return {
       date: this.dateFieldTarget.value,
+      dayParts: this.dayPartsFieldTarget.value.split(",").filter(Boolean),
       playTime: this.playTimeFieldTarget.value,
       playTimeEnd: this.playTimeEndFieldTarget.value,
     }
   }
 
   writeToFields() {
+    this.dayPartsFieldTarget.value = this.committed.dayParts.join(",")
     this.dateFieldTarget.value = this.committed.date
     this.playTimeFieldTarget.value = this.committed.playTime
     this.playTimeEndFieldTarget.value = this.committed.playTimeEnd
@@ -203,11 +225,16 @@ export default class extends Controller {
   }
 
   matchingPresetName() {
+    if (this.committed.dayParts.length) {
+      return this.committed.dayParts.map((part) =>
+        part.charAt(0).toUpperCase() + part.slice(1)).join(" or ")
+    }
     const match = this.presetTargets.find((button) => this.presetMatches(button, this.committed))
     return match?.querySelector(".play-window-picker__preset-name")?.textContent.trim() || null
   }
 
   highlightActivePreset() {
+    this.stackHintTarget.hidden = this.committed.dayParts.length < 2
     this.presetTargets.forEach((button) => {
       const active = this.presetMatches(button, this.committed)
       button.classList.toggle("is-active", active)
@@ -216,6 +243,9 @@ export default class extends Controller {
   }
 
   presetMatches(button, window) {
+    if (window.dayParts.length) {
+      return window.dayParts.includes(button.dataset.playWindowPickerPartParam)
+    }
     return button.dataset.playWindowPickerStartParam === window.playTime &&
       button.dataset.playWindowPickerEndParam === window.playTimeEnd
   }

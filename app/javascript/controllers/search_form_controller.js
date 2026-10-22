@@ -7,13 +7,13 @@ export default class extends Controller {
   showLoading(event) {
     this.updateUrl(event.target)
     this.loadingTarget.hidden = false
-    this.submitTarget.disabled = true
+    this.submitTargets.forEach((button) => { button.disabled = true })
     this.resultsTarget.replaceChildren()
   }
 
   hideLoading() {
     this.loadingTarget.hidden = true
-    this.submitTarget.disabled = false
+    this.submitTargets.forEach((button) => { button.disabled = false })
   }
 
   updateUrl(form) {
@@ -23,6 +23,9 @@ export default class extends Controller {
     url.searchParams.set("date", formData.get("search[date]"))
     url.searchParams.set("play_time", formData.get("search[play_time]"))
     url.searchParams.set("play_time_end", formData.get("search[play_time_end]"))
+
+    const dayParts = formData.get("search[day_parts]")
+    if (dayParts) url.searchParams.set("day_parts", dayParts)
 
     window.history.replaceState(window.history.state, "", url)
   }

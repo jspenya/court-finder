@@ -19,6 +19,10 @@
           required: true,
           data: { play_window_picker_target: "playTimeEndField" } %>
 
+    <%= form.hidden_field :day_parts,
+          value: search_defaults[:day_parts],
+          data: { play_window_picker_target: "dayPartsField" } %>
+
     <label class="field">
       <span class="field__label">When do you want to play?</span>
       <div class="play-window-picker__control">
@@ -61,6 +65,7 @@
                           class="play-window-picker__preset"
                           data-play-window-picker-target="preset"
                           data-action="click->play-window-picker#applyPreset"
+                          data-play-window-picker-part-param="<%= preset[:name] == "All Day" ? "" : preset[:name].downcase %>"
                           data-play-window-picker-start-param="<%= preset[:start] %>"
                           data-play-window-picker-end-param="<%= preset[:end] %>"
                           aria-pressed="false"
@@ -72,6 +77,9 @@
               </div>
             </div>
 
+            <p data-play-window-picker-target="stackHint" hidden>
+              Matches any selected period. Editing From/To switches to a custom range.
+            </p>
             <div class="play-window-picker__times">
               <div class="play-window-picker__time-field">
                 <span class="play-window-picker__section-label">From</span>
@@ -97,6 +105,8 @@
               </div>
               </div>
             </div>
+            <%= form.submit "Check availability", class: "button button--primary",
+                  data: { search_form_target: "submit", action: "click->play-window-picker#cancel" } %>
           </div>
 
           <p class="play-window-picker__error" data-play-window-picker-target="error" hidden role="alert"></p>

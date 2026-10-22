@@ -38,6 +38,7 @@ module SearchesHelper
   end
 
   def format_play_time_window(search)
+    return search.day_parts.map(&:capitalize).join(" or ") if search.day_parts.any?
     return "all day" if all_day_window?(search)
 
     start_label = search.play_time.strftime("%-I:%M %p")
@@ -64,7 +65,8 @@ module SearchesHelper
       venue.id,
       date: search.date.iso8601,
       play_time: search.play_time.strftime("%H:%M"),
-      play_time_end: search.play_time_end.strftime("%H:%M")
+      play_time_end: search.play_time_end.strftime("%H:%M"),
+      day_parts: search.day_parts.join(",")
     )
   end
 

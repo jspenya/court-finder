@@ -11,7 +11,8 @@ class SearchVenuesController < ApplicationController
     @search = Availability::Search.build(
       date: params[:date],
       play_time: params[:play_time],
-      play_time_end: params[:play_time_end]
+      play_time_end: params[:play_time_end],
+      day_parts: params[:day_parts]
     )
     @result = Availability::CheckVenue.call(venue:, search: @search)
   rescue Availability::InvalidSearch

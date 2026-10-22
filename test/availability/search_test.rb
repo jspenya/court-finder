@@ -11,6 +11,15 @@ module Availability
       assert_equal Time.zone.local(2026, 6, 14, 16, 0), search.play_time_end
     end
 
+    test "rejects unknown or all-day stacked periods" do
+      [ "all_day,morning", "unknown" ].each do |parts|
+        assert_raises(InvalidSearch) do
+          Search.build(date: "2026-06-14", play_time: "08:00",
+            play_time_end: "00:00", day_parts: parts)
+        end
+      end
+    end
+
     test "rejects blank start time" do
       assert_raises(InvalidSearch) do
         Search.build(date: "2026-06-14", play_time: "", play_time_end: "16:00")

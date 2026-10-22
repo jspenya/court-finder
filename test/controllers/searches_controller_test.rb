@@ -37,6 +37,20 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "preserves stacked periods in shared searches and venue requests" do
+    get root_path, params: { date: Time.zone.tomorrow.iso8601,
+      play_time: "08:00", play_time_end: "00:00", day_parts: "morning,evening" }
+
+    assert_response :success
+    assert_select "input[name='search[day_parts]'][value='morning,evening']"
+    assert_select "turbo-frame[src]" do |frames|
+      assert frames.any?
+      frames.each do |frame|
+        assert_equal "morning,evening", Rack::Utils.parse_query(URI(frame["src"]).query)["day_parts"]
+      end
+    end
+  end
+
   test "rejects past time windows" do
     post search_path, params: {
       search: {

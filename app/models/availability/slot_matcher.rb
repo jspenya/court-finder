@@ -7,7 +7,13 @@ module Availability
     end
 
     def self.covers?(search, slot)
-      slot.starts_at <= search.play_time_end && slot.ends_at >= search.play_time
+      search.time_windows.any? do |starts_at, ends_at|
+        if search.day_parts.any?
+          slot.starts_at < ends_at && slot.ends_at > starts_at
+        else
+          slot.starts_at <= ends_at && slot.ends_at >= starts_at
+        end
+      end
     end
   end
 end

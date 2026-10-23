@@ -18,6 +18,13 @@ class SearchVenuesControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#venue_pickle_village[data-status=available]"
     assert_select ".result--venue .result__title", text: "Pickle Village"
     assert_select ".result__slot-chip"
+    assert_select "a[data-action='booking-handoff#open'][target='_blank']", text: "View booking details"
+    assert_select "dialog[aria-labelledby][aria-describedby]" do
+      assert_select "button", count: 1
+      assert_select "button[data-action='booking-handoff#continue']", text: "I understand — continue"
+      assert_select ".booking-dialog__selection", text: /Sunday, 14 June 2026/
+      assert_select "p", text: /need to enter them again/
+    end
   end
 
   test "omits the venue card when no slots match" do

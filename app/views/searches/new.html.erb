@@ -7,16 +7,17 @@
     <span class="mast__location">Cagayan de Oro, Philippines</span>
   </header>
 
-  <div class="planner">
-    <aside class="planner__search" aria-label="Plan your play time">
       <header class="hero">
         <h1 class="hero__title">Find your next court.</h1>
         <p class="hero__lede">Pick a time. Compare venues. Get out and play.</p>
       </header>
+
+  <div class="planner">
+    <aside class="planner__search" aria-label="Plan your play time">
       <div id="search-form">
         <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
       </div>
-      <p class="planner__note">Live availability across <%= Availability::VenueCatalog.all.size %> venues. Reserve directly on the venue’s booking platform.</p>
+      <p class="planner__note">No account needed. Live availability across <%= Availability::VenueCatalog.all.size %> venues. Reserve directly on the venue’s booking platform.</p>
     </aside>
 
     <section class="planner__results" aria-label="Venue availability">
@@ -35,9 +36,9 @@
           <%= render "results", search: @search %>
         <% elsif @search_error.blank? %>
           <div class="result result--welcome">
-            <h2>Where will you play?</h2>
+            <h2>Your next game starts with a time.</h2>
             <p>Choose your date and time, then check availability to see open courts across Cagayan de Oro.</p>
-            <p class="results__hint">No account needed. All times are Philippine time.</p>
+
           </div>
         <% end %>
       <% end %>

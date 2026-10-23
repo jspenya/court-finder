@@ -1,4 +1,4 @@
-<article class="result result--venue">
+<article class="result result--venue" data-controller="booking-handoff">
   <header class="result__header">
     <div class="result__header-text">
       <h2 class="result__title"><%= result.venue.name %></h2>
@@ -7,14 +7,14 @@
       <p class="result__summary"><%= result_availability_summary(result) %></p>
     </div>
     <div class="result__handoff">
-      <%= link_to "Book on site",
+      <%= link_to "View booking details",
             result.venue.booking_url,
             class: "button button--small button--outline result__book",
+            data: { action: "booking-handoff#open", booking_handoff_target: "link" },
+            aria: { haspopup: "dialog" },
             target: "_blank",
             rel: "noopener" %>
-      <% if (hint = booking_handoff_date_hint(search)) %>
-        <p class="result__handoff-hint"><%= hint %></p>
-      <% end %>
+
     </div>
   </header>
 
@@ -50,4 +50,14 @@
       </div>
     <% end %>
   </details>
+  <dialog class="booking-dialog" data-booking-handoff-target="dialog"
+          data-action="close->booking-handoff#restoreFocus click->booking-handoff#dismissBackdrop"
+          aria-labelledby="booking-title-<%= result.venue.id %>"
+          aria-describedby="booking-description-<%= result.venue.id %>">
+    <h2 id="booking-title-<%= result.venue.id %>">Continue to <%= result.venue.name %>?</h2>
+    <p id="booking-description-<%= result.venue.id %>">This opens the venue’s booking platform in a new tab. Your selected date and times won’t carry over — you’ll need to enter them again there.</p>
+    <p class="booking-dialog__selection"><strong><%= search.date.strftime("%A, %-d %B %Y") %></strong><br><%= format_play_time_window(search) %> · Philippine time</p>
+    <p class="results__hint">Check the date, time and court before confirming your booking.</p>
+    <button type="button" class="button button--primary" data-action="booking-handoff#continue" autofocus>I understand — continue</button>
+  </dialog>
 </article>

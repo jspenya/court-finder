@@ -64,8 +64,8 @@
               </div>
               </div>
             </div>
-            <div class="play-window-picker__presets" role="group" aria-label="Time of day">
-              <span class="play-window-picker__section-label">Time of day</span>
+            <div class="play-window-picker__presets" role="group" aria-label="Quick time choices">
+              <span class="play-window-picker__section-label">Quick time choices</span>
               <div class="play-window-picker__preset-row">
                 <% play_window_presets.each do |preset| %>
                   <button type="button"
@@ -85,7 +85,7 @@
             </div>
 
             <p data-play-window-picker-target="stackHint" hidden>
-              Matches any selected period. Editing From/To switches to a custom range.
+              Matches any selected period. Editing From/Until switches to a custom range.
             </p>
             <%= form.submit "Check availability", class: "button button--primary",
                   data: { search_form_target: "submit" } %>

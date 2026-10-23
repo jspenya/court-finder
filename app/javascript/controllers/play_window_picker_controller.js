@@ -15,7 +15,6 @@ export default class extends Controller {
     "playTimeEndInput",
     "error",
     "preset",
-    "stackHint",
   ]
 
   static values = {
@@ -249,7 +248,6 @@ export default class extends Controller {
   }
 
   highlightActivePreset() {
-    this.stackHintTarget.hidden = this.committed.dayParts.length < 2
     this.presetTargets.forEach((button) => {
       const active = this.presetMatches(button, this.committed)
       button.classList.toggle("is-active", active)

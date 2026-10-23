@@ -114,7 +114,7 @@ test("saved denial or dismissal does not prompt again", async () => {
     const request = location({ saved })
     await request.subject.connect()
     assert.equal(request.calls(), 0)
-    assert.match(request.subject.statusTarget.textContent, /browser’s site settings/)
+    assert.match(request.subject.statusTarget.textContent, /Location off/)
   }
 })
 
@@ -173,5 +173,5 @@ test("unsupported geolocation explains fallback", async () => {
   const subject = controller("location", { navigator: {} })
   Object.assign(subject, { element: {}, statusTarget: {}, dispatch: () => {} })
   await subject.connect()
-  assert.match(subject.statusTarget.textContent, /still check all venues/)
+  assert.match(subject.statusTarget.textContent, /showing all venues/)
 })

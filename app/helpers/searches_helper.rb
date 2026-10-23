@@ -39,21 +39,37 @@ module SearchesHelper
 
   # Merge overlapping intervals across courts for a venue-level overview. Court
   # details remain the source of truth for a continuous booking on one court.
-  def venue_availability_ranges(result)
-    result.slots.sort_by(&:starts_at).each_with_object([]) do |slot, ranges|
-      if ranges.any? && slot.starts_at <= ranges.last.last
-        ranges.last[1] = [ ranges.last.last, slot.ends_at ].max
+  def venue_availability_ranges(result, search: nil)
+    intervals = result.slots.flat_map do |slot|
+      windows = search ? search.time_windows : [ [ slot.starts_at, slot.ends_at ] ]
+      windows.filter_map do |window_start, window_end|
+        starts_at = [ slot.starts_at, window_start ].max
+        ends_at = [ slot.ends_at, window_end ].min
+        [ starts_at, ends_at ] if ends_at > starts_at
+      end
+    end
+
+    intervals.sort_by(&:first).each_with_object([]) do |(starts_at, ends_at), ranges|
+      if ranges.any? && starts_at <= ranges.last.last
+        ranges.last[1] = [ ranges.last.last, ends_at ].max
       else
-        ranges << [ slot.starts_at, slot.ends_at ]
+        ranges << [ starts_at, ends_at ]
       end
     end
   end
 
-  def availability_bar_style(starts_at, ends_at, date)
-    midnight = date.in_time_zone
-    left = ((starts_at - midnight) / 1.day.to_f * 100).clamp(0, 100)
-    right = ((ends_at - midnight) / 1.day.to_f * 100).clamp(0, 100)
+  def availability_bar_style(starts_at, ends_at, search)
+    duration = (search.play_time_end - search.play_time).to_f
+    left = ((starts_at - search.play_time) / duration * 100).clamp(0, 100)
+    right = ((ends_at - search.play_time) / duration * 100).clamp(0, 100)
     "left: #{left.round(4)}%; width: #{(right - left).round(4)}%"
+  end
+
+  def availability_axis_labels(search)
+    midpoint = search.play_time + (search.play_time_end - search.play_time) / 2
+    [ search.play_time, midpoint, search.play_time_end ].map do |time|
+      time.strftime(time.min.zero? ? "%-I %p" : "%-I:%M %p")
+    end
   end
 
   def format_play_time_window(search)

@@ -9,7 +9,6 @@
 
       <header class="hero">
         <h1 class="hero__title">Find your next court.</h1>
-        <p class="hero__lede">Pick a time. Compare venues. Get out and play.</p>
       </header>
 
   <div class="planner">
@@ -17,12 +16,11 @@
       <div id="search-form">
         <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
       </div>
-      <p class="planner__note">No account needed. Live availability across <%= Availability::VenueCatalog.all.size %> venues. Reserve directly on the venue’s booking platform.</p>
     </aside>
 
     <section class="planner__results" aria-label="Venue availability">
       <div class="location-preference">
-        <p id="location-status" class="results__hint" data-location-target="status" role="status">Location permission is managed by your browser. Your location stays in this page.</p>
+        <p id="location-status" class="results__hint" data-location-target="status" role="status" title="Location stays on this page. Change permission in your browser’s site settings."></p>
       </div>
       <div id="search-loading" class="loading" data-search-form-target="loading" hidden>
         <%= render "loading" %>
@@ -30,12 +28,6 @@
       <%= turbo_frame_tag "results", data: { search_form_target: "results" } do %>
         <% if @search %>
           <%= render "results", search: @search %>
-        <% elsif @search_error.blank? %>
-          <div class="result result--welcome">
-            <h2>Your next game starts with a time.</h2>
-            <p>Choose your date and time, then check availability to see open courts across Cagayan de Oro.</p>
-
-          </div>
         <% end %>
       <% end %>
     </section>

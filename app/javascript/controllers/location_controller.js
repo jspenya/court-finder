@@ -11,7 +11,7 @@ export default class extends Controller {
     delete this.element.currentPosition
     this.dispatch("changed")
     if (!navigator.geolocation) {
-      this.statusTarget.textContent = "Location is unavailable in this browser. You can still check all venues."
+      this.statusTarget.textContent = "Location unavailable · showing all venues"
       return
     }
 
@@ -43,12 +43,12 @@ export default class extends Controller {
     const requestId = this.requestId = (this.requestId || 0) + 1
     // Remember the attempt too, so dismissing a prompt does not cause repeated requests.
     if (this.preference() !== "granted") this.remember("requested")
-    this.statusTarget.textContent = "Waiting for your location… Your location stays in this page."
+    this.statusTarget.textContent = "Finding your location…"
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       if (requestId !== this.requestId) return
       this.remember("granted")
       this.element.currentPosition = { latitude: coords.latitude, longitude: coords.longitude }
-      this.statusTarget.textContent = "Closest venues first · straight-line distances. Change location permission in your browser’s site settings."
+      this.statusTarget.textContent = ""
       this.dispatch("changed")
     }, (error) => {
       if (requestId !== this.requestId) return
@@ -56,13 +56,13 @@ export default class extends Controller {
         this.remember("denied")
         this.withoutLocation()
       } else {
-        this.statusTarget.textContent = "We couldn’t get your location. You can still check all venues. Reload to try again."
+        this.statusTarget.textContent = "Location unavailable · showing all venues. Reload to retry."
       }
     }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 })
   }
 
   withoutLocation() {
-    this.statusTarget.textContent = "Showing all venues. To show closest venues first, allow location in your browser’s site settings and reload."
+    this.statusTarget.textContent = "Location off · showing all venues"
   }
 
   preference() {

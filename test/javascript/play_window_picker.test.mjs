@@ -32,3 +32,40 @@ test('midnight remains valid as the end of an evening or all-day search', () => 
     subject.validateSubmission({ preventDefault() { assert.fail('valid range blocked') } })
   }
 })
+
+test('preset clicks highlight selected periods without the removed hint element', () => {
+  const subject = picker()
+  subject.draft = { date: '2026-10-25', playTime: '00:00', playTimeEnd: '00:00', dayParts: [] }
+  subject.committed = { ...subject.draft }
+  subject.syncPickersFromDraft = () => {}
+  subject.updateTriggerLabel = () => {}
+  for (const target of ['dateFieldTarget', 'dayPartsFieldTarget', 'playTimeFieldTarget', 'playTimeEndFieldTarget']) {
+    subject[target] = {}
+  }
+  Object.defineProperty(subject, 'stackHintTarget', { get() { throw new Error('Missing target element') } })
+  subject.presetTargets = [
+    ['', '00:00', '00:00'],
+    ['morning', '08:00', '12:00'],
+    ['afternoon', '12:00', '17:00'],
+    ['evening', '17:00', '00:00']
+  ].map(([part, start, end]) => {
+    const button = { dataset: { playWindowPickerPartParam: part, playWindowPickerStartParam: start, playWindowPickerEndParam: end } }
+    button.classList = { toggle(_name, active) { button.active = active } }
+    button.setAttribute = (name, value) => { button[name] = value }
+    return button
+  })
+  const click = part => subject.applyPreset({ params: { part }, stopPropagation() {} })
+  const active = () => subject.presetTargets.filter(button => button.active).map(button => button.dataset.playWindowPickerPartParam)
+
+  click('afternoon')
+  assert.deepEqual(active(), ['afternoon'])
+  click('evening')
+  assert.deepEqual(active(), ['afternoon', 'evening'])
+  assert.equal(subject.dayPartsFieldTarget.value, 'afternoon,evening')
+  assert.equal(subject.presetTargets[3]['aria-pressed'], 'true')
+  click('afternoon')
+  assert.deepEqual(active(), ['evening'])
+  assert.equal(subject.presetTargets[2]['aria-pressed'], 'false')
+  click('')
+  assert.deepEqual(active(), [''])
+})

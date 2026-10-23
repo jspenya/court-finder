@@ -7,7 +7,7 @@
       <p class="result__summary"><%= result_availability_summary(result) %></p>
     </div>
     <div class="result__handoff">
-      <%= link_to "View booking details",
+      <%= link_to "Book on site",
             result.venue.booking_url,
             class: "button button--small button--outline result__book",
             data: { action: "booking-handoff#open", booking_handoff_target: "link" },
@@ -18,20 +18,23 @@
     </div>
   </header>
 
-  <% ranges = venue_availability_ranges(result) %>
+  <% ranges = venue_availability_ranges(result, search:) %>
   <div class="availability" aria-label="Available times across courts">
-    <div class="availability__axis" aria-hidden="true"><span>12 AM</span><span>12 PM</span><span>12 AM</span></div>
+    <div class="availability__axis" aria-hidden="true">
+      <% availability_axis_labels(search).each do |label| %>
+        <span><%= label %></span>
+      <% end %>
+    </div>
     <div class="availability__track" aria-hidden="true">
       <% ranges.each do |starts_at, ends_at| %>
-        <span class="availability__bar" style="<%= availability_bar_style(starts_at, ends_at, search.date) %>"></span>
+        <span class="availability__bar" style="<%= availability_bar_style(starts_at, ends_at, search) %>"></span>
       <% end %>
     </div>
     <p class="availability__times"><%= ranges.map { |starts_at, ends_at| "#{starts_at.strftime('%-I:%M %p')}–#{ends_at.strftime('%-I:%M %p')}" }.join(" · ") %></p>
   </div>
 
   <details class="result__courts">
-    <summary>View courts and times <span aria-hidden="true">+</span></summary>
-    <p class="results__hint">Availability across courts is combined above. Check an individual court for your full session.</p>
+    <summary>Courts & times <span aria-hidden="true">+</span></summary>
     <% result.court_schedules.each do |court_name, periods| %>
       <div class="result__court-row">
         <span class="result__court-name"><%= court_name.presence || "Court" %></span>
@@ -55,9 +58,8 @@
           aria-labelledby="booking-title-<%= result.venue.id %>"
           aria-describedby="booking-description-<%= result.venue.id %>">
     <h2 id="booking-title-<%= result.venue.id %>">Continue to <%= result.venue.name %>?</h2>
-    <p id="booking-description-<%= result.venue.id %>">This opens the venue’s booking platform in a new tab. Your selected date and times won’t carry over — you’ll need to enter them again there.</p>
+    <p id="booking-description-<%= result.venue.id %>">Re-enter your date and time on the venue’s site. They won’t carry over.</p>
     <p class="booking-dialog__selection"><strong><%= search.date.strftime("%A, %-d %B %Y") %></strong><br><%= format_play_time_window(search) %> · Philippine time</p>
-    <p class="results__hint">Check the date, time and court before confirming your booking.</p>
-    <button type="button" class="button button--primary" data-action="booking-handoff#continue" autofocus>I understand — continue</button>
+    <button type="button" class="button button--primary" data-action="booking-handoff#continue" autofocus>Continue to booking</button>
   </dialog>
 </article>

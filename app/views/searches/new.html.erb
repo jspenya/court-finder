@@ -1,36 +1,46 @@
-<main class="page"
-      data-controller="search-form location"
-      data-search-form-share-url-value="<%= root_path %>">
-  <header class="hero">
-    <div class="hero__content">
-      <p class="hero__eyebrow">Cagayan de Oro · Pickleball Venues</p>
-      <h1 class="hero__title">
-        <span class="hero__title-line">Open</span>
-        <span class="hero__title-line hero__title-line--accent">Courts</span>
-      </h1>
-      <p class="hero__lede">One search across all Pickleball venues. See open slots, then book on the venue site.</p>
-    </div>
+<main class="page" data-controller="search-form location" data-search-form-share-url-value="<%= root_path %>">
+  <header class="mast">
+    <%= link_to root_path, class: "brand", aria: { label: "Court Finder home" } do %>
+      <svg viewBox="0 0 28 36" fill="none" aria-hidden="true"><rect x="2" y="2" width="24" height="32" rx="2" stroke="currentColor" stroke-width="2"/><path d="M2 18h24M2 11h24M2 25h24M14 2v9M14 25v9" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span>Court Finder</span>
+    <% end %>
+    <span class="mast__location">Cagayan de Oro, Philippines</span>
   </header>
 
-  <div class="location-preference">
-    <button type="button" class="button button--small button--outline" aria-describedby="location-status" data-location-target="button" data-action="location#locate">Use my location</button>
-    <button type="button" class="button button--small button--outline" data-location-target="clear" data-action="location#clear" hidden>Clear location</button>
-    <p id="location-status" class="results__hint" data-location-target="status" role="status">Share your location to show the closest venues first. Your location stays in this page.</p>
-  </div>
+  <div class="planner">
+    <aside class="planner__search" aria-label="Plan your play time">
+      <header class="hero">
+        <h1 class="hero__title">Find your next court.</h1>
+        <p class="hero__lede">Pick a time. Compare venues. Get out and play.</p>
+      </header>
+      <div id="search-form">
+        <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
+      </div>
+      <p class="planner__note">Live availability across <%= Availability::VenueCatalog.all.size %> venues. Reserve directly on the venue’s booking platform.</p>
+    </aside>
 
-  <div id="search-form">
-    <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
+    <section class="planner__results" aria-label="Venue availability">
+      <div class="location-preference">
+        <div class="location-preference__actions">
+          <button type="button" class="button button--small button--outline" aria-describedby="location-status" data-location-target="button" data-action="location#locate">Use my location</button>
+          <button type="button" class="button button--small button--ghost" data-location-target="clear" data-action="location#clear" hidden>Clear location</button>
+        </div>
+        <p id="location-status" class="results__hint" data-location-target="status" role="status">Share your location to show the closest venues first. Your location stays in this page.</p>
+      </div>
+      <div id="search-loading" class="loading" data-search-form-target="loading" hidden>
+        <%= render "loading" %>
+      </div>
+      <%= turbo_frame_tag "results", data: { search_form_target: "results" } do %>
+        <% if @search %>
+          <%= render "results", search: @search %>
+        <% elsif @search_error.blank? %>
+          <div class="result result--welcome">
+            <h2>Where will you play?</h2>
+            <p>Choose your date and time, then check availability to see open courts across Cagayan de Oro.</p>
+            <p class="results__hint">No account needed. All times are Philippine time.</p>
+          </div>
+        <% end %>
+      <% end %>
+    </section>
   </div>
-
-  <div id="search-loading" class="loading" data-search-form-target="loading" hidden>
-    <%= render "loading" %>
-  </div>
-
-  <%= turbo_frame_tag "results", data: { search_form_target: "results" } do %>
-    <% if @search %>
-      <%= render "results", search: @search %>
-    <% elsif @search_error.blank? %>
-      <p class="results__hint">Tap the date and time field, then check availability across all venues.</p>
-    <% end %>
-  <% end %>
 </main>

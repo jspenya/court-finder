@@ -18,7 +18,20 @@
     </div>
   </header>
 
-  <div class="result__courts">
+  <% ranges = venue_availability_ranges(result) %>
+  <div class="availability" aria-label="Available times across courts">
+    <div class="availability__axis" aria-hidden="true"><span>12 AM</span><span>12 PM</span><span>12 AM</span></div>
+    <div class="availability__track" aria-hidden="true">
+      <% ranges.each do |starts_at, ends_at| %>
+        <span class="availability__bar" style="<%= availability_bar_style(starts_at, ends_at, search.date) %>"></span>
+      <% end %>
+    </div>
+    <p class="availability__times"><%= ranges.map { |starts_at, ends_at| "#{starts_at.strftime('%-I:%M %p')}–#{ends_at.strftime('%-I:%M %p')}" }.join(" · ") %></p>
+  </div>
+
+  <details class="result__courts">
+    <summary>View courts and times <span aria-hidden="true">+</span></summary>
+    <p class="results__hint">Availability across courts is combined above. Check an individual court for your full session.</p>
     <% result.court_schedules.each do |court_name, periods| %>
       <div class="result__court-row">
         <span class="result__court-name"><%= court_name.presence || "Court" %></span>
@@ -36,5 +49,5 @@
         </div>
       </div>
     <% end %>
-  </div>
+  </details>
 </article>

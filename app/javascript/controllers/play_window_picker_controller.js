@@ -20,6 +20,7 @@ export default class extends Controller {
 
   static values = {
     minDate: String,
+    inline: Boolean,
   }
 
   connect() {
@@ -27,6 +28,9 @@ export default class extends Controller {
     this.draft = { ...this.committed }
     this.boundCloseOnOutside = this.closeOnOutsideClick.bind(this)
     this.boundKeydown = this.onKeydown.bind(this)
+    this.form = this.element.closest("form")
+    this.boundValidateSubmission = this.validateSubmission.bind(this)
+    this.form.addEventListener("submit", this.boundValidateSubmission, true)
 
     this.datePicker = flatpickr(this.dateInputTarget, this.dateOptions())
     this.playTimePicker = flatpickr(this.playTimeInputTarget, this.timeOptions(this.playTimeInputTarget, this.committed.playTime, this.playTimeChanged.bind(this)))
@@ -41,6 +45,7 @@ export default class extends Controller {
     this.playTimePicker?.destroy()
     this.playTimeEndPicker?.destroy()
     this.removeDocumentListeners()
+    this.form.removeEventListener("submit", this.boundValidateSubmission, true)
   }
 
   toggle(event) {
@@ -67,6 +72,7 @@ export default class extends Controller {
   }
 
   cancel(event) {
+    if (this.inlineValue) return
     event?.stopPropagation()
     this.clearError()
     this.panelTarget.hidden = true
@@ -76,12 +82,18 @@ export default class extends Controller {
 
   dateOptions() {
     return {
-      appendTo: this.dateInputTarget.closest(".play-window-picker__date"),
+      appendTo: this.inlineValue ? undefined : this.dateInputTarget.closest(".play-window-picker__date"),
       dateFormat: "Y-m-d",
       defaultDate: this.committed.date,
       disableMobile: true,
-      inline: true,
+      inline: !this.inlineValue,
+      altInput: this.inlineValue,
+      altFormat: "D, M j, Y",
+      altInputClass: "field__input",
       minDate: this.minDateValue || "today",
+      onReady: (_dates, _text, instance) => {
+        instance.altInput?.setAttribute("aria-label", "Play date")
+      },
       onChange: (_selectedDates, dateStr) => {
         this.draft.date = dateStr
         this.commitDraft()
@@ -89,7 +101,7 @@ export default class extends Controller {
     }
   }
 
-  timeOptions(_input, defaultTime, onChange) {
+  timeOptions(input, defaultTime, onChange) {
     return {
       allowInput: false,
       altInput: true,
@@ -101,6 +113,9 @@ export default class extends Controller {
       enableTime: true,
       minuteIncrement: 60,
       noCalendar: true,
+      onReady: (_dates, _text, instance) => {
+        instance.altInput.setAttribute("aria-label", input === this.playTimeInputTarget ? "From" : "Until")
+      },
       onChange: (_selectedDates, timeStr) => {
         onChange(timeStr)
       },
@@ -276,6 +291,15 @@ export default class extends Controller {
   showError(message) {
     this.errorTarget.textContent = message
     this.errorTarget.hidden = false
+  }
+
+  validateSubmission(event) {
+    const error = this.validateDraft()
+    if (error) {
+      event.preventDefault()
+      event.stopImmediatePropagation()
+      this.showError(error)
+    }
   }
 
   clearError() {

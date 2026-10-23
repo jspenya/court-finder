@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["count", "meta", "empty", "list"]
+  static targets = ["count", "meta", "empty", "list", "progress"]
   static values = {
     venueCount: Number,
     playTime: String
@@ -43,6 +43,10 @@ export default class extends Controller {
     const loaded = this.loadedFrames()
     const allLoaded = loaded.length === this.venueCountValue
     const checkedAt = this.latestCheckedAt()
+    if (this.hasProgressTarget) {
+      this.progressTarget.hidden = allLoaded
+      this.progressTarget.textContent = `${loaded.length} of ${this.venueCountValue} venues checked`
+    }
 
     if (checkedAt) {
       this.metaTarget.hidden = false

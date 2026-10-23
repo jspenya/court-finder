@@ -37,6 +37,25 @@ module SearchesHelper
     "#{court_count} #{'court'.pluralize(court_count)} · #{slot_count} #{'slot'.pluralize(slot_count)}"
   end
 
+  # Merge overlapping intervals across courts for a venue-level overview. Court
+  # details remain the source of truth for a continuous booking on one court.
+  def venue_availability_ranges(result)
+    result.slots.sort_by(&:starts_at).each_with_object([]) do |slot, ranges|
+      if ranges.any? && slot.starts_at <= ranges.last.last
+        ranges.last[1] = [ ranges.last.last, slot.ends_at ].max
+      else
+        ranges << [ slot.starts_at, slot.ends_at ]
+      end
+    end
+  end
+
+  def availability_bar_style(starts_at, ends_at, date)
+    midnight = date.in_time_zone
+    left = ((starts_at - midnight) / 1.day.to_f * 100).clamp(0, 100)
+    right = ((ends_at - midnight) / 1.day.to_f * 100).clamp(0, 100)
+    "left: #{left.round(4)}%; width: #{(right - left).round(4)}%"
+  end
+
   def format_play_time_window(search)
     return search.day_parts.map(&:capitalize).join(" or ") if search.day_parts.any?
     return "all day" if all_day_window?(search)

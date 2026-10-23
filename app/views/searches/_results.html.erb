@@ -5,9 +5,11 @@
      data-search-results-venue-count-value="<%= venues.size %>"
      data-search-results-play-time-value="<%= search.play_time.iso8601 %>">
   <div class="results__header">
-    <p class="results__count" data-search-results-target="count" aria-live="polite">Checking <%= pluralize(venues.size, "venue") %>…</p>
+    <h2 class="results__count" data-search-results-target="count" aria-live="polite">Checking <%= pluralize(venues.size, "venue") %>…</h2>
     <p class="results__meta" data-search-results-target="meta" hidden></p>
   </div>
+  <p class="results__window"><%= search.date.strftime("%a, %-d %b") %> · <%= format_play_time_window(search) %></p>
+  <p class="results__progress" data-search-results-target="progress" role="status"></p>
 
   <div class="results__list" data-search-results-target="list">
     <% venues.each do |venue| %>

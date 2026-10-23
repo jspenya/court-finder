@@ -1,5 +1,7 @@
 <%= turbo_stream.replace "search-form" do %>
-  <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
+  <div id="search-form">
+    <%= render "form", search_defaults: @search_defaults, search_error: @search_error %>
+  </div>
 <% end %>
 
 <%= turbo_stream.replace "search-loading" do %>

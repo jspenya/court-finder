@@ -7,7 +7,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select "h1.hero__title", text: /Open.*Courts/m
+    assert_select "h1.hero__title", text: "Find your next court."
     assert_select "[data-controller='play-window-picker']"
     assert_select "form.search-form"
     assert_select "button[data-action='location#locate']", text: "Use my location"

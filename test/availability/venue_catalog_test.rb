@@ -11,6 +11,17 @@ module Availability
       end
     end
 
+    test "venue coordinates are paired and valid when supplied" do
+      VenueCatalog.all.each do |venue|
+        latitude = venue.config["latitude"]
+        longitude = venue.config["longitude"]
+        next if latitude.nil? && longitude.nil?
+
+        assert latitude.is_a?(Numeric) && latitude.finite? && latitude.between?(-90, 90), venue.name
+        assert longitude.is_a?(Numeric) && longitude.finite? && longitude.between?(-180, 180), venue.name
+      end
+    end
+
     test "pickle village is in macasandig" do
       venue = VenueCatalog.find("pickle_village")
 

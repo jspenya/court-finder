@@ -1,5 +1,8 @@
 venues:
   pikol:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/pikol-cdo (2026-10-23)
+    latitude: 8.4237901
+    longitude: 124.6718111
     name: Pikol
     platform: khourt
     slug: pikol
@@ -13,6 +16,9 @@ venues:
     booking_url: https://www.khourt.com/pikol/book
 
   the_playground:
+    # Map coordinates: https://pickleplay-pro.onrender.com/ (2026-10-23)
+    latitude: 8.467594
+    longitude: 124.662773
     name: The Playground Pickleball
     platform: pickleplay
     address: Piot Heights Compound, Camaman-an
@@ -20,6 +26,9 @@ venues:
     booking_url: https://pickleplay-pro.onrender.com/
 
   top_pick:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/top-pick (2026-10-23)
+    latitude: 8.4216342
+    longitude: 124.6390828
     name: Top Pick
     platform: kourtsuite
     tenant_code: T649
@@ -28,6 +37,9 @@ venues:
     booking_url: https://toppickcdo.com/#booking
 
   pickle_village:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/pickle-village-pickleball-courts (2026-10-23)
+    latitude: 8.4600562
+    longitude: 124.6373511
     name: Pickle Village
     platform: rezerv
     origin: https://picklevillage.rezerv.co
@@ -38,6 +50,9 @@ venues:
     booking_url: https://picklevillage.rezerv.co/appointment-booking?apptId=63081bb1-e1fa-48b4-9f2f-18dad29a24f7&locationId=6bcf2295-c5b9-494b-9646-33cf635fbe87&durationId=677f5e4b-6f88-420d-882e-a1ee5f68cb02
 
   home_court:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/homecourt (2026-10-23)
+    latitude: 8.5083826
+    longitude: 124.625178
     name: Homecourt
     platform: rezerv
     origin: https://homecourtpickleballcdo.rezerv.co
@@ -48,6 +63,9 @@ venues:
     booking_url: https://homecourtpickleballcdo.rezerv.co/appointment-booking?apptId=07ca3f66-dd20-44da-9772-39024d3b34ae&locationId=10ce4615-53c1-43f8-a087-ad8924d50958&durationId=e54bab48-0caf-44b3-b575-ab1f3d4b7682
 
   zero_zero_two:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/002-pickle-courts (2026-10-23)
+    latitude: 8.4772519
+    longitude: 124.6343389
     name: 0-0-2 Pickle Courts
     platform: rezerv
     origin: https://0-0-2-pickle-courts.rezerv.co
@@ -58,6 +76,9 @@ venues:
     booking_url: https://0-0-2-pickle-courts.rezerv.co/appointment-booking?apptId=3211e216-3cbf-4773-85c2-4be3d2498c69&locationId=51328ab1-c127-49ed-a4f3-4859e194637f
 
   champions_field:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/champions-field-pickleball-center (2026-10-23)
+    latitude: 8.5016966
+    longitude: 124.6422456
     name: Champions Field
     platform: rezerv
     origin: https://champions-field.rezerv.co
@@ -68,6 +89,9 @@ venues:
     booking_url: https://champions-field.rezerv.co/appointment-booking?apptId=5795aa96-fc59-47e0-8c0f-447d3a585205&locationId=759f6fed-df2c-4522-8309-5c47e2c14385&durationId=3b31ef1f-128b-4d23-9eed-e0e38bc465dd
 
   dula_lifestyle_hub_covered:
+    # Map coordinates: https://pickleballer.ph/courts/cagayan-de-oro?page=3 (2026-10-23)
+    latitude: 8.4696506
+    longitude: 124.616099
     name: Dula Lifestyle Hub (Covered)
     platform: rezerv
     origin: https://dulalifestylehub.rezerv.co
@@ -78,6 +102,9 @@ venues:
     booking_url: https://dulalifestylehub.rezerv.co/appointment-booking?apptId=6c158f2f-a115-4672-a8d5-764d59991926&locationId=ff88647d-7101-4aa5-b63e-f780cce5022c&durationId=1afb63d0-60e7-410b-8c8c-911e73d4627a
 
   dula_lifestyle_hub_outdoor:
+    # Map coordinates: https://pickleballer.ph/courts/cagayan-de-oro?page=3 (2026-10-23)
+    latitude: 8.4696506
+    longitude: 124.616099
     name: Dula Lifestyle Hub (Outdoor)
     platform: rezerv
     origin: https://dulalifestylehub.rezerv.co
@@ -88,6 +115,9 @@ venues:
     booking_url: https://dulalifestylehub.rezerv.co/appointment-booking?apptId=2be2318f-8c56-426f-876e-6fd4594988f3&locationId=ff88647d-7101-4aa5-b63e-f780cce5022c&durationId=ab52c65a-2af6-48a2-bf19-8b6ef3b266f8
 
   paddle_play:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/paddle-play-pickleball-courts (2026-10-23)
+    latitude: 8.5076033
+    longitude: 124.6292329
     name: Paddle Play
     platform: bookingdyno
     page_slug: Paddle-Play-Pickleball-Courts
@@ -105,6 +135,9 @@ venues:
     booking_url: https://bookingdyno.com/publicview/bookingdetails/Paddle-Play-Pickleball-Courts?id=%7B%22iv%22%3A%229e320a0f9b04711308c59a377de5323b%22%2C%22content%22%3A%22c8c70ba3204d6c80eacfb0b61e5e39%22%2C%22tag%22%3A%2272facbb6b388165b323498250c3695d6%22%7D
 
   pamilya_pickleball:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/pamilya-pickleball-gateway (2026-10-23)
+    latitude: 8.4754664
+    longitude: 124.5979754
     name: Pamilya Pickleball
     platform: bookingdyno
     page_slug: Pamilya-Pickleball-Courts
@@ -119,6 +152,9 @@ venues:
     booking_url: https://bookingdyno.com/publicview/bookingdetails/Pamilya-Pickleball-Courts?id=%7B%22iv%22%3A%2204863cf5be7f4d0e0e3bce20cc56d3b3%22%2C%22content%22%3A%2256336845afdf43f2c96d4149eb320d%22%2C%22tag%22%3A%2288113adf2c01e8c55ca1ed48772fa86d%22%7D
 
   c_one:
+    # Map coordinates: https://pickleballer.ph/courts/cagayan-de-oro?page=3 (2026-10-23)
+    latitude: 8.447318
+    longitude: 124.62214
     name: C-One SM Uptown
     platform: bookingdyno
     page_slug: C-ONE-Pickleball-Courts
@@ -137,6 +173,9 @@ venues:
     platform: courtogo
     venue_id: bb64ee5c-0361-40bf-b801-5af4c5770b93
     slug: pickle-point
+    # Coordinates from https://www.courtogo.com/venues/pickle-point (2026-10-23)
+    latitude: 8.5110703
+    longitude: 124.626021
     address: Avancena St.
     maps_url: https://www.google.com/maps/search/?api=1&query=Pickle+Point+Avancena+Street+Cagayan+de+Oro
     booking_url: https://www.courtogo.com/venues/pickle-point
@@ -146,6 +185,9 @@ venues:
     platform: courtogo
     venue_id: 9ce68a84-9fde-48a6-bb68-d728e73781c1
     slug: dink-district
+    # Coordinates from https://www.courtogo.com/venues/dink-district (2026-10-23)
+    latitude: 8.4702982
+    longitude: 124.708816
     address: Tablon Hwy., Tablon-Baloy
     maps_url: https://www.google.com/maps/search/?api=1&query=Dink+District+Tablon+Highway+Tablon-Baloy+Cagayan+de+Oro
     booking_url: https://www.courtogo.com/venues/dink-district
@@ -155,11 +197,17 @@ venues:
     platform: courtogo
     venue_id: 2b247163-ee55-4b45-b395-f32c298ef014
     slug: courtly-pickleball-cdo
+    # Coordinates from https://www.courtogo.com/venues/courtly-pickleball-cdo (2026-10-23)
+    latitude: 8.4757949
+    longitude: 124.6356497
     address: Mayor H. Avancena St., Gumamela Extension
     maps_url: https://www.google.com/maps/search/?api=1&query=Courtly+Pickleball+Mayor+H+Avancena+Gumamela+Extension+Cagayan+de+Oro
     booking_url: https://www.courtogo.com/venues/courtly-pickleball-cdo
 
   fliqshot:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/fliqshot-pickleball-courts-cdo (2026-10-23)
+    latitude: 8.4316512
+    longitude: 124.663161
     name: Fliqshot Pickleball Courts
     platform: managesports
     slug: fliqshot
@@ -168,6 +216,9 @@ venues:
     booking_url: https://fliqshot.ph/booking
 
   qsports_club_court_1:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/q-sports-club (2026-10-23)
+    latitude: 8.4461487
+    longitude: 124.6184351
     name: "QSports Club Court 1"
     platform: "qsports"
     court_id: "7x16HpX82Ke5QTaA7vlL"
@@ -176,6 +227,9 @@ venues:
     maps_url: "https://www.google.com/maps/search/?api=1&query=QSports+Club+Court+1+Cagayan+de+Oro"
 
   qsports_club_court_2:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/q-sports-club (2026-10-23)
+    latitude: 8.4461487
+    longitude: 124.6184351
     name: "QSports Club Court 2"
     platform: "qsports"
     court_id: "rGOMKhTM1CbOG4Aljin0"
@@ -188,11 +242,17 @@ venues:
     platform: "courtogo"
     venue_id: "8ab1e6d1-9f48-4d9a-98c0-8cd4bc6da69d"
     slug: "breakpoint-pickleball-courts-cdo"
+    # Coordinates from https://www.courtogo.com/venues/breakpoint-pickleball-courts-cdo (2026-10-23)
+    latitude: 8.432471
+    longitude: 124.6624144
     address: "Block 10A, Lomboy"
     booking_url: "https://www.courtogo.com/venues/breakpoint-pickleball-courts-cdo"
     maps_url: "https://www.google.com/maps/search/?api=1&query=Breakpoint+Pickleball+Courts+Block+10A%2C+Lomboy"
 
   center_court:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/center-court-pickleball-arena (2026-10-23)
+    latitude: 8.4769374
+    longitude: 124.6340852
     name: "Center Court Pickleball Arena"
     platform: "bookingdyno"
     page_slug: "center-court-pickleball-arena"
@@ -207,11 +267,17 @@ venues:
     platform: "courtogo"
     venue_id: "c27032d3-e5e3-41cd-913a-915472cddcc1"
     slug: "frontyard-pickleball-and-typti-court"
+    # Coordinates from https://www.courtogo.com/venues/frontyard-pickleball-and-typti-court (2026-10-23)
+    latitude: 8.454475
+    longitude: 124.6416624
     address: "Upper Corona Drive, Tibasak"
     booking_url: "https://www.courtogo.com/venues/frontyard-pickleball-and-typti-court"
     maps_url: "https://www.google.com/maps/search/?api=1&query=Frontyard+Pickleball+and+Typti+Court+Upper+Corona+Drive%2C+Tibasak"
 
   matchpoint:
+    # Map coordinates: https://pickleboard.co/ph/courts/northern-mindanao/cagayan-de-oro/matchpoint-sports-center (2026-10-23)
+    latitude: 8.4946255
+    longitude: 124.5928985
     name: "Matchpoint"
     platform: "matchpoint"
     booking_url: "https://matchpointsc.com/"

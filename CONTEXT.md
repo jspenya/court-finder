@@ -25,7 +25,7 @@ A contiguous block of time at a venue that can be booked for pickleball. A slot 
 _Avoid_: Session, reservation window
 
 **Search result**:
-One venue that has at least one matching slot for the current availability search. Shows the venue name, all matching slot time ranges, and one link to that venue's booking platform. Results are ordered by how close the venue's earliest matching slot starts to the player's preferred play time. Venues with no matching slots are omitted.
+One venue that has at least one matching slot for the current availability search. Shows the venue name, all matching slot time ranges, and one link to that venue's booking platform. When the player shares their location, results with known venue coordinates are ordered by straight-line distance, closest first; venues without coordinates follow. The player’s coordinates remain in browser memory and are not included in shared links or sent to the server. Otherwise, results are ordered by how close the venue's earliest matching slot starts to the player's preferred play time. Venues with no matching slots are omitted.
 _Avoid_: Listing, recommendation
 
 **Availability check**:

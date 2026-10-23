@@ -13,7 +13,7 @@
     <% venues.each do |venue| %>
       <%= turbo_frame_tag "venue_#{venue.id}",
             src: search_venue_frame_path(venue, search),
-            data: { status: "pending" } do %>
+            data: { status: "pending", latitude: venue.config["latitude"], longitude: venue.config["longitude"] } do %>
         <%= render "pending", venue: %>
       <% end %>
     <% end %>

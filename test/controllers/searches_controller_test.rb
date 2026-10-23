@@ -10,6 +10,8 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1.hero__title", text: /Open.*Courts/m
     assert_select "[data-controller='play-window-picker']"
     assert_select "form.search-form"
+    assert_select "button[data-action='location#locate']", text: "Use my location"
+    assert_select "[data-location-target='status'][role='status']"
     assert_select ".play-window-picker button", text: "Update", count: 0
     assert_select ".play-window-picker button", text: "Cancel", count: 0
     assert_select ".play-window-picker__preset-name", text: "All Day"
@@ -33,7 +35,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[name='search[play_time]'][value='07:00']"
     assert_select "input[name='search[play_time_end]'][value='16:00']"
     Availability::VenueCatalog.all.each do |venue|
-      assert_select "turbo-frame#venue_#{venue.id}"
+      assert_select "turbo-frame#venue_#{venue.id}[data-latitude='#{venue.config.fetch('latitude')}'][data-longitude='#{venue.config.fetch('longitude')}']"
     end
   end
 

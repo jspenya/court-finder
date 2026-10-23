@@ -86,6 +86,9 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Run JavaScript tests
+        run: node --test test/javascript/*.test.mjs
+
       - name: Run tests
         env:
           RAILS_ENV: test

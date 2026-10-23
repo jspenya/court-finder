@@ -82,42 +82,96 @@ test("Turbo response metadata is copied to the existing frame", () => {
   assert.equal(target.dataset.latitude, "8")
 })
 
-function location() {
-  let success, failure, options
-  const subject = controller("location", { navigator: { geolocation: { getCurrentPosition: (yes, no, opts) => { success = yes; failure = no; options = opts } } } })
-  Object.assign(subject, { element: {}, buttonTarget: {}, statusTarget: {}, clearTarget: {}, dispatch: () => {} })
-  return { subject, success: coords => success({ coords }), failure: code => failure({ code }), options: () => options }
+function location({ permission = "prompt", saved, storageBlocked = false } = {}) {
+  let success, failure, options, calls = 0
+  const storage = new Map(saved ? [["court-finder.location-permission", saved]] : [])
+  const subject = controller("location", {
+    navigator: {
+      permissions: { query: async () => { if (permission === null) throw new Error("Unsupported"); return { state: permission } } },
+      geolocation: { getCurrentPosition: (yes, no, opts) => { calls++; success = yes; failure = no; options = opts } }
+    },
+    localStorage: {
+      getItem: key => { if (storageBlocked) throw new Error("Blocked"); return storage.get(key) },
+      setItem: (key, value) => { if (storageBlocked) throw new Error("Blocked"); storage.set(key, value) }
+    }
+  })
+  Object.assign(subject, { element: {}, statusTarget: {}, dispatch: () => {} })
+  return { subject, storage, calls: () => calls, success: coords => success({ coords }), failure: code => failure({ code }), options: () => options }
 }
 
-test("location is requested only on click and clearing ignores late callbacks", () => {
+test("first visit requests native permission and stores only the choice", async () => {
   const request = location()
-  assert.equal(request.options(), undefined)
-  request.subject.locate()
-  assert.equal(request.subject.buttonTarget.disabled, true)
+  await request.subject.connect()
+  assert.equal(request.calls(), 1)
   assert.equal(request.options().timeout, 10000)
   request.success({ latitude: 8.4, longitude: 124.6 })
   assert.equal(request.subject.element.currentPosition.latitude, 8.4)
-  assert.equal(request.subject.clearTarget.hidden, false)
-  request.subject.clear()
-  request.success({ latitude: 10, longitude: 100 })
-  assert.equal(request.subject.element.currentPosition, undefined)
+  assert.deepEqual([...request.storage.values()], ["granted"])
 })
 
-test("denied permission and timeouts leave search available and allow retry", () => {
+test("saved denial or dismissal does not prompt again", async () => {
+  for (const saved of ["denied", "requested", "granted"]) {
+    const request = location({ saved })
+    await request.subject.connect()
+    assert.equal(request.calls(), 0)
+    assert.match(request.subject.statusTarget.textContent, /browser’s site settings/)
+  }
+})
+
+test("browser settings take precedence over the saved choice", async () => {
+  const granted = location({ permission: "granted", saved: "denied" })
+  await granted.subject.connect()
+  assert.equal(granted.calls(), 1)
+  const denied = location({ permission: "denied", saved: "granted" })
+  await denied.subject.connect()
+  assert.equal(denied.calls(), 0)
+  assert.equal(denied.storage.get("court-finder.location-permission"), "denied")
+})
+
+test("denial and timeout leave availability search usable", async () => {
+  for (const code of [1, 3]) {
+    const request = location()
+    await request.subject.connect()
+    request.failure(code)
+    assert.equal(request.subject.element.currentPosition, undefined)
+    assert.match(request.subject.statusTarget.textContent, /all venues/)
+    assert.equal(request.storage.get("court-finder.location-permission"), code === 1 ? "denied" : "requested")
+  }
+})
+
+test("disconnect ignores late permission queries and position callbacks", async () => {
+  const pending = location()
+  const connecting = pending.subject.connect()
+  pending.subject.disconnect()
+  await connecting
+  assert.equal(pending.calls(), 0)
   const request = location()
-  request.subject.locate()
-  request.failure(1)
-  assert.match(request.subject.statusTarget.textContent, /permission was denied/)
-  assert.equal(request.subject.buttonTarget.disabled, false)
-  request.subject.locate()
-  request.failure(3)
-  assert.match(request.subject.statusTarget.textContent, /Try again/)
+  await request.subject.connect()
+  request.subject.disconnect()
+  request.success({ latitude: 8, longitude: 124 })
   assert.equal(request.subject.element.currentPosition, undefined)
 })
 
-test("unsupported geolocation explains fallback", () => {
+test("unsupported permission queries use the remembered choice", async () => {
+  for (const saved of [undefined, "granted", "denied", "requested"]) {
+    const request = location({ permission: null, saved })
+    await request.subject.connect()
+    assert.equal(request.calls(), !saved || saved === "granted" ? 1 : 0)
+  }
+})
+
+test("blocked storage remembers dismissal for the current session", async () => {
+  const request = location({ storageBlocked: true })
+  await request.subject.connect()
+  request.failure(1)
+  request.subject.disconnect()
+  await request.subject.connect()
+  assert.equal(request.calls(), 1)
+})
+
+test("unsupported geolocation explains fallback", async () => {
   const subject = controller("location", { navigator: {} })
-  subject.statusTarget = {}
-  subject.locate()
+  Object.assign(subject, { element: {}, statusTarget: {}, dispatch: () => {} })
+  await subject.connect()
   assert.match(subject.statusTarget.textContent, /still check all venues/)
 })

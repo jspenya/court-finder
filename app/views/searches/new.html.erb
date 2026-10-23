@@ -22,11 +22,7 @@
 
     <section class="planner__results" aria-label="Venue availability">
       <div class="location-preference">
-        <div class="location-preference__actions">
-          <button type="button" class="button button--small button--outline" aria-describedby="location-status" data-location-target="button" data-action="location#locate">Use my location</button>
-          <button type="button" class="button button--small button--ghost" data-location-target="clear" data-action="location#clear" hidden>Clear location</button>
-        </div>
-        <p id="location-status" class="results__hint" data-location-target="status" role="status">Share your location to show the closest venues first. Your location stays in this page.</p>
+        <p id="location-status" class="results__hint" data-location-target="status" role="status">Location permission is managed by your browser. Your location stays in this page.</p>
       </div>
       <div id="search-loading" class="loading" data-search-form-target="loading" hidden>
         <%= render "loading" %>

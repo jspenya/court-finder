@@ -10,7 +10,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1.hero__title", text: "Find your next court."
     assert_select "[data-controller='play-window-picker']"
     assert_select "form.search-form"
-    assert_select "button[data-action='location#locate']", text: "Use my location"
+    assert_select "button[data-action='location#locate']", count: 0
     assert_select "[data-location-target='status'][role='status']"
     assert_select ".play-window-picker button", text: "Update", count: 0
     assert_select ".play-window-picker button", text: "Cancel", count: 0
